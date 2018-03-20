@@ -3,7 +3,10 @@ import fabric.contrib.project as project
 import os
 import shutil
 import sys
-import SocketServer
+if sys.version_info < (3,0):
+    import SocketServer
+else:
+    import socketserver as SocketServer
 
 from pelican.server import ComplexHTTPRequestHandler
 
@@ -90,3 +93,15 @@ def gh_pages():
     """Publish to GitHub Pages"""
     rebuild()
     local("ghp-import -b {github_pages_branch} {deploy_path} -p".format(**env))
+
+def pushghp(msg):
+    preview()
+    check = input('This must be done in "Source" branch. Are you in it?').lower()
+    if check == 'yes' or check == 'y':
+        local('git add --all')
+        local('git commit -m "{0}"'.format(msg))
+        local('ghp-import -m "{0}" -b master output'.format(msg))
+        local('git push --all')
+    else:
+        print()
+        print('try "git checkout branch source"')
