@@ -10,7 +10,7 @@ Status: published
 
 ## **Chmod: Change File Mode Bits**
 
-```sh
+```shell
 15:45:18 user@example temporary 
 total 12K
 drwxr-xr-x  2 test users 4.0K Feb  1 14:29 .
