@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html lang="en"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Dan">
+  <meta name="description" content="Posts and writings by Dan">
+  <title>
+    danielmichaels
+&ndash; SSH in a nutshell  </title>
+
+  <link href="//fonts.googleapis.com/css?family=Open+Sans:600,800" rel="stylesheet" type="text/css">
+  <link rel="shortcut icon" href="https://danielmichaels.github.io/favicon.ico">
+  <link href="https://danielmichaels.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="danielmichaels Atom" />
+
+  <link rel="stylesheet" href="https://danielmichaels.github.io/theme/css/style.min.css?feffd13e">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  
+<meta name="keywords" content="ssh">
+</head>
+<body>
+  <div class="container">
+    <div class="four columns sidebar">
+<nav>
+  <h1>Hi.</h1>
+  <a href="https://danielmichaels.github.io/">
+    <img src="https://danielmichaels.github.io/cover.jpeg" id="gravatar" alt="My photo"/>
+  </a>
+  <h2><a href="https://danielmichaels.github.io/">I'm Dan</a></h2>
+
+  <div id="bio">
+    <p>Technocrat, Aspiring Developer, Thinker, Practitioner of Shosin.</p>
+  </div>
+
+  <div id="social">
+Follow me:
+<div id="stalker">
+
+
+  <a title="danielmichaels on Github" href="https://github.com/danielmichaels">
+    <i class="fa fa-github"></i>
+  </a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<a title="Atom feed" href="https://danielmichaels.github.io/feeds/all.atom.xml">
+  <i class="fa fa-rss"></i>
+</a>
+</div>  </div>
+
+  <div id="tags">
+    <ul>
+      <li><a href="#" target="_blank">About Me<span style="font-size: 0.7em">&#8599;</span> </a></li>
+      <li><a href="#" target="_blank">Projects<span style="font-size: 0.7em">&#8599;</span> </a></li>
+      <li><a href="http://python.org/" target="_blank">Python.org<span style="font-size: 0.7em">&#8599;</span> </a></li>
+      <li><a href="http://jinja.pocoo.org/" target="_blank">Jinja2<span style="font-size: 0.7em">&#8599;</span> </a></li>
+      </ul>
+  </div>
+</nav>    </div>
+
+    <div class="eleven columns content">
+  <p class="meta">
+    28 January 2018
+    <a href="/">
+      <i class="home fa fa-home"></i>
+    </a>
+  </p>
+
+  <h1 class="title"><a href="https://danielmichaels.github.io/posts/2018/Jan/ssh-in-a-nutshell/">SSH in a nutshell</a></h1>
+  
+  <div class="article_text" id="post">
+    <h1>SSH in a nutshell.</h1>
+<h3>Basics</h3>
+<p>what it is, ports, pro's and con's. why better than telnet. scp and sftp.</p>
+<h3>Setup (Old School Method)</h3>
+<p>On a new machine we need to setup up ssh. This includes installation if its not installed by default (i.e. Arch Linux). It also includes the creation of our private and public keys (maybe write a post about the basics of pgp).</p>
+<p>To create a new key we use <code>ssh-keygen</code>. Taken straight from the man pages:</p>
+<ul>
+<li><strong>ssh-keygen</strong> generates, manages and converts authentication keys for ssh. It can create keys for use by SSH protocols versions one and two. Protocol one is depreciated and should not be used.</li>
+</ul>
+<p>When creating a key we need to specify the type. To do this we use the <code>-t</code> flag followed by one of the following specifications: </p>
+<ul>
+<li>RSA, DSA, ECDSA, ED25519</li>
+</ul>
+<p>If no flag is present it will default to RSA which is what we want. </p>
+<p>Also important is the number of bits in the key to generate. By default it will generate a key length of 2048 bits. In this article we will not discuss non-RSA configurations which require different lengths (refer to the man pages for more info). Generally it is recommended to use 4096 bits of entropy, to do that we use the <code>-b</code> followed by the number, in this case 4096.</p>
+<p>Running <code>ssh-keygen -t rsa -b 4096</code> will create the ssh key.</p>
+<p><img alt=" " src="https://danielmichaels.github.io/posts/2018/Jan/ssh-in-a-nutshell/images/sshcmdline.png">
+Output will look something akin to this.</p>
+<p>It will ask for a password, this is up to the user but it does not limit your ability to login without entering password as we discuss below. It does however, offer protection should your device be stolen or compromised. The password can be bruteforced but it will give you time to manually for to your administered servers and delete the public key that matches the now stolen private key. </p>
+<h3>Key Based Authentication</h3>
+<p>Key based authentication allows seamless interaction between disparate hosts over the network. Generally, to ssh into a remote server the client will need to enter the servers password. Using ssh keys (unless they too are configured with a password) negates this.</p>
+<p>Below we see how to transfer the clients public key to the remote server.</p>
+<div class="highlight"><pre><span></span>scp ~/.ssh/id_rsa.pub user@remote.server.org:/home/user/.ssh/clients_public_key.pub
+</pre></div>
+
+
+<p><code>scp</code> is the Secure Copy program. It uses ssh for the data transfer and provides the same security. The basic syntax is to call <code>scp</code> then append the file to be copied, followed by the destination to send it to. The destination is punctuated by a colon <code>:</code> coupled with the location on the remote server in which the file should be saved to (as seen above).</p>
+<p>Next we need to authorize the key we have sent to the remote server. If we do not authorize it, it will not allow us to login using the key, i.e. we will be prompted for a password each time. To do that we can input the following:</p>
+<p><code>cat ~/.ssh/name_of_new_key.pub &gt;&gt; ~/.ssh/authorized_keys</code></p>
+<p>Firstly, in linux we do not need to append a file name at the end so this works as expected. And secondly, the <code>&gt;&gt;</code> will create the file for us if it does not already exist.</p>
+<p>Finally, it is important to set permissions on the new directory and its keys. Permissions is another topic, but we want the following:</p>
+<div class="highlight"><pre><span></span>chmod <span class="m">700</span> /home/user
+chmod <span class="m">700</span> /home/user/.ssh
+chmod <span class="m">600</span> /home/user/.ssh/authorized_keys
+</pre></div>
+
+
+<p>We want our <code>/home</code> and <code>/home/.ssh</code> to have read, write and execute only by the user and <code>../authorized_keys</code> only read and writable by the user. This is on the remote server. We can also now delete the public key from within <code>~/.ssh/</code> as it is saved to the authorized keys although this is optional.</p>
+<h3>Setup V2 (New School)</h3>
+<p>After explaining the old way or more traditional (sometimes better) way we turn to <code>ssh-copy-id</code>.</p>
+<p>To do all of that in one command we can just enter:</p>
+<div class="highlight"><pre><span></span>ssh-copy-id user@remote_server
+</pre></div>
+
+
+<p>And, it will do everything in about 2 seconds (after you authenticate with the remotes password). To test it without committing anything use the <code>-n</code> flag (dry run). It is important to know what is happening in the background though, so do the old school method to get a better feel for linux -- if you are old hat, just use this.</p>
+<h3>Further Security Measures</h3>
+<p><strong>Disable Password Authentication</strong></p>
+<p>After we have setup key based authentication on the remote server we may want to close off all non-key authenticated access via ssh. This means that only those with authorized keys will be able to access the server. In a home network this may be overkill (dependent on the situation or security posture/threat model you need, or face) but if you are using ssh to administer a VPS this should be the minimum standard.</p>
+<p>To do this we need to edit our <code>/etc/ssh/sshd_config</code> <strong>back it up first!</strong>.</p>
+<p>To do this we just change <code>PasswordAuthentication</code> to <code>no</code> inside the file. After the change we need to restart the ssh daemon to make the change immediate.</p>
+<p><strong>Change SSH Default Port</strong></p>
+<p>Many of the automated botnets automatically search the web looking for open ports, and exploiting them by entering common default credentials. Whilst changing the ssh port from 22 to something else is security by obscurity it does enough to make elevate you above the 'low hanging fruit' category.</p>
+<p>To alter the default port the <code>sshd_config</code> needs to be edited.</p>
+<div class="highlight"><pre><span></span><span class="c1">#Port 22 &lt;---- Uncomment this and change port</span>
+<span class="c1">#AddressFamily any</span>
+<span class="c1">#ListenAddress 0.0.0.0</span>
+<span class="c1">#ListenAddress ::</span>
+</pre></div>
+
+
+<p>You need to be root to do this. And the ssh daemon must be restarted. <code>systemctl restart sshd.service</code> on systemd.</p>
+<p><strong>Auto Deny/Fail2Ban</strong></p>
+<p>To access a host via ssh it needs to be open over the network. This is adds risk and creates an attack vector. <em>fail2ban</em> is a service that attempts to mitigate this by altering your firewalls configuration after a set number of unsuccessful login attempts.</p>
+<p><strong>Port Knocking</strong></p>
+<p>A method to surreptitiously open the port to ssh. By making connection attempts ("knocking") on ports in a predefined manner the firewall allows access to ssh. Again, this is security through obscurity but coupled with several strategies does help to harden the system. Nmap can ascertain if a host has port knocking enabled. </p>
+  </div>
+
+  <div class="article_meta related">
+    <h3>Category: </h3>
+    <span><a href="https://danielmichaels.github.io/category/administration.html">administration</span>
+    
+    <h3>Tags:</h3>
+    <span>
+      <a href="https://danielmichaels.github.io/tag/ssh.html">ssh</a>    </span>
+  </div>
+
+
+
+      <div class="footer">
+<div class="disclaimer">
+  
+    <p>
+      © Dan,  &mdash; built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a href="https://github.com/karambir/taman" target="_blank">Taman</a>, a port of jekyll theme <a href="https://github.com/swanson/lagom" target="_blank">Lagom</a>.
+    </p>
+  </div>      </div>
+    </div>
+  </div>
+
+</body>
+</html>
