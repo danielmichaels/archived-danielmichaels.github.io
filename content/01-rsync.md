@@ -33,7 +33,7 @@ However, if the source destination does not have a trailing slash it will copy t
 ```--exclude=backups/ --include=backups/most_recent```: Inside the exclusion we can explicitly include certain file, folders or patterns that fall inside the broader exclude.
 
 example:
-```BASH
+```
 rsync -azvnP source_dir/ destination_dir/
 ```
 
@@ -43,7 +43,7 @@ Syncing can be either a "pull" or "push".
 
 The "push":
 
-```bash
+```
 rsync -a ~/local_source_dir username@remote_host:/home/username/destination_dir
 ```
 
@@ -52,7 +52,7 @@ Here we are sending data from the source to the destination.
 
 The "pull":
 
-```bash
+```
 rsync -a username@remote_host:/home/username/destination_dir local_source_dir
 ```
 

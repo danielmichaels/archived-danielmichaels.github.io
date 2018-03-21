@@ -62,7 +62,7 @@ EXTRA_PATH_METADATA = {
         'extra/favicon.ico': {'path':'favicon.ico'},
         'extra/cover.jpeg': {'path':'cover.jpeg'}
         }
-
+#MD_EXTENSIONS = ['fenced_code', 'codehilite(css_class=highlight, linenums=True)', 'extra']
 USER_FAVICON_URL = '/favicon.ico'
 USER_LOGO_URL = '/cover.jpeg'
 

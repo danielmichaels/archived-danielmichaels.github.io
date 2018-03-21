@@ -4,11 +4,18 @@ Status: published
 Tags: ssh
 Category: administration
 
-# SSH in a nutshell.
+# SSH
 
-### Basics
+--------
 
-what it is, ports, pro's and con's. why better than telnet. scp and sftp.
+## Definition
+
+Straight from the man pages:
+
+*ssh (SSH client) is a program for logging into a remote machine and for executing commands on a
+remote machine.  It is intended to provide secure encrypted communications between two untrusted
+hosts over an insecure network.  X11 connections, arbitrary TCP ports and UNIX-domain sockets can
+also be forwarded over the secure channel.*
 
 ### Setup (Old School Method)
 
@@ -53,7 +60,7 @@ Firstly, in linux we do not need to append a file name at the end so this works 
 
 Finally, it is important to set permissions on the new directory and its keys. Permissions is another topic, but we want the following:
 
-```BASH
+```
 chmod 700 /home/user
 chmod 700 /home/user/.ssh
 chmod 600 /home/user/.ssh/authorized_keys
@@ -89,7 +96,7 @@ Many of the automated botnets automatically search the web looking for open port
 
 To alter the default port the `sshd_config` needs to be edited.
 
-```BASH
+```
 #Port 22 <---- Uncomment this and change port
 #AddressFamily any
 #ListenAddress 0.0.0.0
