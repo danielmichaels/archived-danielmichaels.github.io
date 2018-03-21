@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html lang="en"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Dan">
+  <meta name="description" content="Posts and writings by Dan">
+  <title>
+    danielmichaels
+&ndash; Linux file permissions  </title>
+
+  <link href="//fonts.googleapis.com/css?family=Open+Sans:600,800" rel="stylesheet" type="text/css">
+  <link rel="shortcut icon" href="https://danielmichaels.github.io/favicon.ico">
+  <link href="https://danielmichaels.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="danielmichaels Atom" />
+
+  <link rel="stylesheet" href="https://danielmichaels.github.io/theme/css/style.min.css?feffd13e">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  
+<meta name="keywords" content="linux">
+</head>
+<body>
+  <div class="container">
+    <div class="four columns sidebar">
+<nav>
+  <h1>Hi.</h1>
+  <a href="https://danielmichaels.github.io/">
+    <img src="https://danielmichaels.github.io/cover.jpeg" id="gravatar" alt="My photo"/>
+  </a>
+  <h2><a href="https://danielmichaels.github.io/">I'm Dan</a></h2>
+
+  <div id="bio">
+    <p>Technocrat, Aspiring Developer, Thinker, Practitioner of Shosin.</p>
+  </div>
+
+  <div id="social">
+Follow me:
+<div id="stalker">
+
+
+  <a title="danielmichaels on Github" href="https://github.com/danielmichaels">
+    <i class="fa fa-github"></i>
+  </a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<a title="Atom feed" href="https://danielmichaels.github.io/feeds/all.atom.xml">
+  <i class="fa fa-rss"></i>
+</a>
+</div>  </div>
+
+  <div id="tags">
+    <ul>
+      <li><a href="#" target="_blank">About Me<span style="font-size: 0.7em">&#8599;</span> </a></li>
+      <li><a href="#" target="_blank">Projects<span style="font-size: 0.7em">&#8599;</span> </a></li>
+      <li><a href="http://python.org/" target="_blank">Python.org<span style="font-size: 0.7em">&#8599;</span> </a></li>
+      <li><a href="http://jinja.pocoo.org/" target="_blank">Jinja2<span style="font-size: 0.7em">&#8599;</span> </a></li>
+      </ul>
+  </div>
+</nav>    </div>
+
+    <div class="eleven columns content">
+  <p class="meta">
+    04 February 2018
+    <a href="/">
+      <i class="home fa fa-home"></i>
+    </a>
+  </p>
+
+  <h1 class="title"><a href="https://danielmichaels.github.io/posts/2018/Feb/linux-file-permissions/">Linux file permissions</a></h1>
+  
+  <div class="article_text" id="post">
+    <h1>Linux: Chmod and Chown</h1>
+<hr>
+<h2><strong>Chmod: Change File Mode Bits</strong></h2>
+<div class="highlight"><pre><span></span><span class="m">15</span>:45:18 user@example temporary 
+total 12K
+drwxr-xr-x  <span class="m">2</span> <span class="nb">test</span> users <span class="m">4</span>.0K Feb  <span class="m">1</span> <span class="m">14</span>:29 .
+drwx------ <span class="m">33</span> <span class="nb">test</span> users <span class="m">4</span>.0K Feb  <span class="m">3</span> <span class="m">15</span>:45 ..
+-rw-r--r--  <span class="m">1</span> <span class="nb">test</span> users    <span class="m">0</span> Jan <span class="m">21</span> <span class="m">12</span>:14 <span class="m">1</span>
+-rw-r--r--  <span class="m">1</span> <span class="nb">test</span> users    <span class="m">0</span> Jan <span class="m">21</span> <span class="m">12</span>:14 <span class="m">3</span>
+-rw-r--r--  <span class="m">1</span> <span class="nb">test</span> users   <span class="m">16</span> Feb  <span class="m">1</span> <span class="m">14</span>:29 file.txt
+</pre></div>
+
+
+<p>In the above example output from left to right we have:
+filemode, number of links, user, group, size, date last modified, name of file.</p>
+<p>We will focus on the filemode for now.</p>
+<div class="highlight"><pre><span></span>drwxr-xr-x
+0123456789 &lt;-- this is our reference marker.
+</pre></div>
+
+
+<p>0: is either <code>-</code> meaning a file, or <code>d</code> signifying that it is a directory.</p>
+<p>1-3: represents the user or owner of the file.</p>
+<p>4-6: is reference to the group that owns the file.</p>
+<p>7-9: everybody else, or other.</p>
+<p><strong>Change the filemodes:</strong></p>
+<p>The command <code>chmod</code> is used to change the modefiles of files. Its basic syntax is as follows:</p>
+<p><code>chmod u+x file.txt</code> -- The <code>u</code> signifies <code>user</code>, the <code>+</code> means add and the <code>x</code> refers to execute. This can be stacked, and used to takeaway permissions.</p>
+<p><code>chmod -R g+rwx directory</code> would recursively (<code>-R</code>) change all <code>group</code> files within <code>directory</code> to read, write and execute.</p>
+<p>Importantly, if the user or group <strong>does not</strong> own the file or directory then the command <code>sudo</code> must be used. Otherwise it is not needed.</p>
+<p><strong>Octal:</strong>
+ In the above examples we used <code>rwx</code> to note what permissions we wanted to add or remove from a file. Another method is to use the <em>octal</em> notation; numeral.</p>
+<p><code>chmod 777 file.txt</code> would mean that we are giving <code>rwx</code> to user, group and other. How does 7 equal <code>rwx</code>?</p>
+<p>This is because <code>4</code> gives read access, <code>2</code> is write and <code>1</code>, execute. When using octal we add the numbers together, so if we wanted read, write and execute we simply add 4,2,1 which equals 7.</p>
+<p><code>chmod 765 xxx.txt</code> would mean:
+- user: read, write and execute
+- group: read and write
+- other: read and execute</p>
+<p>Using this is very simple, but how do I remove permissions? Previosuly, we would <code>chmod u-x</code> i.e. we used the <code>-</code> to signify removal of priviledge. Using octal we just set new filemode to what we want and it will add or subtract the mode accordingly. An example below:</p>
+<p><code>chmod a+rwx</code> == "give read, write and execute to all (user,group a)nd other) <em>or</em> <code>777</code>.</p>
+<p>But if we only wanted the user to have <code>rwx</code> and everyone else read and write we could call: <code>chmod 755</code>. To use non-octal here would be <code>chmod go-x</code>. </p>
+<p><i> Important note:</i> As with all things linux there are many more advanced features. We are just touching the surface here.</p>
+<h2><strong>Chown: Change File Owner and Group</strong></h2>
+<p>The <code>chown</code> command deals with changing the ownership of files and directories.</p>
+<div class="highlight"><pre><span></span>drwxrwxr-x  1 test users 14.0K Jan 21 12:14 dir_1
+
+-rw-r--r--  1   admin   root   16 Feb  1 14:29 file.txt
+[filemode]     [owner] [grp]  
+</pre></div>
+
+
+<p>Above we have a break down of the important parts of our <code>ls -la</code> output.</p>
+<p>In the faked output we have <code>admin</code> in the first positon which is representing the owner/ creator of <code>file.txt</code>. In postition two we have the group that <code>file.txt</code> belongs to, in this case its <code>root</code>.</p>
+<p>The owner of a file can make changes to the filemode and ownsership of a file without super user priviledges. However, if another user wanted to change the ownership they would require this access.</p>
+<p>To make a change is as simple as <code>chown [user]:[group] [file/s]</code>.</p>
+<div class="highlight"><pre><span></span>$ sudo chown root file.txt <span class="c1"># 1.</span>
+$ ls -l 
+-rw-r--r--  <span class="m">1</span> root root   <span class="m">16</span> Feb  <span class="m">1</span> <span class="m">14</span>:29 file.txt
+</pre></div>
+
+
+<p>The simplest usage of <code>chown</code> is the command plus the new owner and file or directory to be affected.</p>
+<div class="highlight"><pre><span></span>$ sudo chown -R admin dir_1 <span class="c1"># 2.</span>
+$ ls -l
+drwxrwxr-x  <span class="m">1</span> admin users <span class="m">14</span>.0K Jan <span class="m">21</span> <span class="m">12</span>:14 dir_1
+</pre></div>
+
+
+<p>If we wanted to make the changes to all files and directories inside a directory we can add <code>-R</code>. This is a recursive function with the same syntax as <code>chmod</code>.</p>
+<div class="highlight"><pre><span></span>$ sudo chown admin:admin file.txt 
+$ ls -l
+-rw-r--r--  <span class="m">1</span> admin admin   <span class="m">16</span> Feb  <span class="m">1</span> <span class="m">14</span>:29 file.txt
+</pre></div>
+
+
+<p>To specify a new owner and group the use of <code>:</code> between the owner and group can be used. <code>admin:users</code>, 'root:root` and so on.</p>
+  </div>
+
+  <div class="article_meta related">
+    <h3>Category: </h3>
+    <span><a href="https://danielmichaels.github.io/category/administration.html">administration</span>
+    
+    <h3>Tags:</h3>
+    <span>
+      <a href="https://danielmichaels.github.io/tag/linux.html">linux</a>    </span>
+  </div>
+
+
+
+      <div class="footer">
+<div class="disclaimer">
+  
+    <p>
+      © Dan,  &mdash; built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a href="https://github.com/karambir/taman" target="_blank">Taman</a>, a port of jekyll theme <a href="https://github.com/swanson/lagom" target="_blank">Lagom</a>.
+    </p>
+  </div>      </div>
+    </div>
+  </div>
+
+</body>
+</html>

@@ -10,7 +10,7 @@
   <meta name="description" content="Posts and writings by Dan">
   <title>
     danielmichaels
-  </title>
+&ndash; Scapy rssi snippet  </title>
 
   <link href="//fonts.googleapis.com/css?family=Open+Sans:600,800" rel="stylesheet" type="text/css">
   <link rel="shortcut icon" href="https://danielmichaels.github.io/favicon.ico">
@@ -19,6 +19,7 @@
   <link rel="stylesheet" href="https://danielmichaels.github.io/theme/css/style.min.css?feffd13e">
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
   
+<meta name="keywords" content="scapy, python">
 </head>
 <body>
   <div class="container">
@@ -85,27 +86,38 @@ Follow me:
 </nav>    </div>
 
     <div class="eleven columns content">
-<div id="home">
-  <h2>Blog Posts </h2>
-  <ul class="posts">
-    <li>
-      <span>28 February 2018 &raquo;</span>
-      <a href="https://danielmichaels.github.io/posts/2018/Feb/scapy-rssi-snippet/">Scapy rssi snippet</a>
-    </li>
-    <li>
-      <span>04 February 2018 &raquo;</span>
-      <a href="https://danielmichaels.github.io/posts/2018/Feb/linux-file-permissions/">Linux file permissions</a>
-    </li>
-    <li>
-      <span>28 January 2018 &raquo;</span>
-      <a href="https://danielmichaels.github.io/posts/2018/Jan/ssh-in-a-nutshell/">SSH in a nutshell</a>
-    </li>
-    <li>
-      <span>24 January 2018 &raquo;</span>
-      <a href="https://danielmichaels.github.io/posts/2018/Jan/rsync-cheatsheet/">Rsync cheatsheet</a>
-    </li>
-  </ul>
-</div>
+  <p class="meta">
+    28 February 2018
+    <a href="/">
+      <i class="home fa fa-home"></i>
+    </a>
+  </p>
+
+  <h1 class="title"><a href="https://danielmichaels.github.io/posts/2018/Feb/scapy-rssi-snippet/">Scapy rssi snippet</a></h1>
+  
+  <div class="article_text" id="post">
+    <h1>Scapy Snippets</h1>
+<h2>How to get RSSI from WLAN packet</h2>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scapy.layers.dot11</span> <span class="kn">import</span> <span class="n">RadioTap</span><span class="p">,</span> <span class="n">Dot11</span>
+
+<span class="k">def</span> <span class="nf">get_rssi</span><span class="p">(</span><span class="n">packet</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">packet</span><span class="o">.</span><span class="n">haslayer</span><span class="p">(</span><span class="n">RadioTap</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">packet</span><span class="o">.</span><span class="n">dbm_antsignal</span>
+</pre></div>
+
+
+<p><strong>caveat: currently only tested on Ralink: RT5370 chipset</strong></p>
+  </div>
+
+  <div class="article_meta related">
+    <h3>Category: </h3>
+    <span><a href="https://danielmichaels.github.io/category/python.html">python</span>
+    
+    <h3>Tags:</h3>
+    <span>
+      <a href="https://danielmichaels.github.io/tag/scapy.html">scapy</a>,      <a href="https://danielmichaels.github.io/tag/python.html">python</a>    </span>
+  </div>
+
 
 
       <div class="footer">

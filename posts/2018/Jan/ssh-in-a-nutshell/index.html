@@ -96,9 +96,14 @@ Follow me:
   <h1 class="title"><a href="https://danielmichaels.github.io/posts/2018/Jan/ssh-in-a-nutshell/">SSH in a nutshell</a></h1>
   
   <div class="article_text" id="post">
-    <h1>SSH in a nutshell.</h1>
-<h3>Basics</h3>
-<p>what it is, ports, pro's and con's. why better than telnet. scp and sftp.</p>
+    <h1>SSH</h1>
+<hr>
+<h2>Definition</h2>
+<p>Straight from the man pages:</p>
+<p><em>ssh (SSH client) is a program for logging into a remote machine and for executing commands on a
+remote machine.  It is intended to provide secure encrypted communications between two untrusted
+hosts over an insecure network.  X11 connections, arbitrary TCP ports and UNIX-domain sockets can
+also be forwarded over the secure channel.</em></p>
 <h3>Setup (Old School Method)</h3>
 <p>On a new machine we need to setup up ssh. This includes installation if its not installed by default (i.e. Arch Linux). It also includes the creation of our private and public keys (maybe write a post about the basics of pgp).</p>
 <p>To create a new key we use <code>ssh-keygen</code>. Taken straight from the man pages:</p>
@@ -127,9 +132,9 @@ Output will look something akin to this.</p>
 <p><code>cat ~/.ssh/name_of_new_key.pub &gt;&gt; ~/.ssh/authorized_keys</code></p>
 <p>Firstly, in linux we do not need to append a file name at the end so this works as expected. And secondly, the <code>&gt;&gt;</code> will create the file for us if it does not already exist.</p>
 <p>Finally, it is important to set permissions on the new directory and its keys. Permissions is another topic, but we want the following:</p>
-<div class="highlight"><pre><span></span>chmod <span class="m">700</span> /home/user
-chmod <span class="m">700</span> /home/user/.ssh
-chmod <span class="m">600</span> /home/user/.ssh/authorized_keys
+<div class="highlight"><pre><span></span>chmod 700 /home/user
+chmod 700 /home/user/.ssh
+chmod 600 /home/user/.ssh/authorized_keys
 </pre></div>
 
 
@@ -150,10 +155,10 @@ chmod <span class="m">600</span> /home/user/.ssh/authorized_keys
 <p><strong>Change SSH Default Port</strong></p>
 <p>Many of the automated botnets automatically search the web looking for open ports, and exploiting them by entering common default credentials. Whilst changing the ssh port from 22 to something else is security by obscurity it does enough to make elevate you above the 'low hanging fruit' category.</p>
 <p>To alter the default port the <code>sshd_config</code> needs to be edited.</p>
-<div class="highlight"><pre><span></span><span class="c1">#Port 22 &lt;---- Uncomment this and change port</span>
-<span class="c1">#AddressFamily any</span>
-<span class="c1">#ListenAddress 0.0.0.0</span>
-<span class="c1">#ListenAddress ::</span>
+<div class="highlight"><pre><span></span>#Port 22 &lt;---- Uncomment this and change port
+#AddressFamily any
+#ListenAddress 0.0.0.0
+#ListenAddress ::
 </pre></div>
 
 
