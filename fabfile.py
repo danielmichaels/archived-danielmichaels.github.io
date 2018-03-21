@@ -97,7 +97,8 @@ def gh_pages():
 def pushghp(msg):
     preview()
     print()
-    check = input('This must be done in "Source" branch. Are you in it? ').lower()
+    check = input('This must be done in "Source" branch. Are you in it? '\
+            '\nPlease enter [yes] or [no] >> ').lower()
     if check == 'yes' or check == 'y':
         local('git add --all')
         local('git commit -m "{0}"'.format(msg))
@@ -105,4 +106,5 @@ def pushghp(msg):
         local('git push --all')
     else:
         print()
+        print('Cannot commit unless inside "source" branch')
         print('try "git checkout branch source"')

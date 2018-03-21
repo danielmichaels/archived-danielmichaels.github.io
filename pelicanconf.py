@@ -11,8 +11,15 @@ SITEURL = ''
 PATH = 'content'
 
 TIMEZONE = 'Australia/ACT'
+DEFAULT_DATE = 'fs'
+DEFAULT_DATE_FORMAT = '%a %d %b %Y'
 
 DEFAULT_LANG = 'en'
+
+# Drafts --> to publish post must contain Status: published metadata.
+DEFAULT_METADATA = {
+        'status': 'draft'
+        }
 
 # Feed generation is usually not desired when developing
 FEED_ALL_ATOM = None
