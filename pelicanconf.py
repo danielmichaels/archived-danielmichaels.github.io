@@ -22,10 +22,10 @@ AUTHOR_FEED_ATOM = None
 AUTHOR_FEED_RSS = None
 
 # Blogroll
-LINKS = (('Pelican', 'http://getpelican.com/'),
+LINKS = (('About Me', '#'),('Projects', '#'),
          ('Python.org', 'http://python.org/'),
          ('Jinja2', 'http://jinja.pocoo.org/'),
-         ('You can modify those links in your config file', '#'),)
+         )
 
 # Social widget
 SOCIAL = (('github', 'danielmichaels'),
@@ -40,7 +40,7 @@ ARTICLE_SAVE_AS = 'posts/{date:%Y}/{date:%b}/{slug}/index.html'
 # Themes and Plugins
 
 THEME = 'add-ons/themes/taman'
-TAGLINE = 'Another Trite Blogger' # Taman theme specific
+TAGLINE = 'Technocrat, Aspiring Developer, Thinker, Practitioner of Shosin.' # Taman theme specific
 PLUGIN_PATHS = ['add-ons/plugins']
 PLUGINS = ['assets']
 
