@@ -3,7 +3,6 @@
 from __future__ import unicode_literals
 
 # General Settings
-
 AUTHOR = 'Dan'
 SITENAME = 'danielmichaels'
 SITEURL = ''
@@ -13,6 +12,7 @@ PATH = 'content'
 TIMEZONE = 'Australia/ACT'
 DEFAULT_DATE = 'fs'
 DEFAULT_DATE_FORMAT = '%a %d %b %Y'
+CURRENTYEAR = 2018
 
 DEFAULT_LANG = 'en'
 
@@ -38,6 +38,7 @@ LINKS = (('About Me', '#'),('Projects', '#'),
 SOCIAL = (('github', 'danielmichaels'),
           ('Another social link', '#'),)
 
+# Pagination
 DEFAULT_PAGINATION = False
 
 # Save As Settings
@@ -45,14 +46,12 @@ ARTICLE_URL = 'posts/{date:%Y}/{date:%b}/{slug}/'
 ARTICLE_SAVE_AS = 'posts/{date:%Y}/{date:%b}/{slug}/index.html'
 
 # Themes and Plugins
-
 THEME = 'add-ons/themes/taman'
 TAGLINE = 'Technocrat, Aspiring Developer, Thinker, Practitioner of Shosin.' # Taman theme specific
 PLUGIN_PATHS = ['add-ons/plugins']
 PLUGINS = ['assets']
 
 # Static and Extra Paths
-
 STATIC_PATHS = [
         'images',
         'extra/favicon.ico',
