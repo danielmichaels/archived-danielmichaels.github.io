@@ -1,5 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>danielmichaels</title><link href="https://danielmichaels.github.io/" rel="alternate"></link><link href="https://danielmichaels.github.io/feeds/all.atom.xml" rel="self"></link><id>https://danielmichaels.github.io/</id><updated>2018-02-28T00:00:00+11:00</updated><entry><title>Scapy rssi snippet</title><link href="https://danielmichaels.github.io/posts/2018/Feb/scapy-rssi-snippet/" rel="alternate"></link><published>2018-02-28T00:00:00+11:00</published><updated>2018-02-28T00:00:00+11:00</updated><author><name>Dan</name></author><id>tag:danielmichaels.github.io,2018-02-28:/posts/2018/Feb/scapy-rssi-snippet/</id><summary type="html">&lt;h1&gt;Scapy Snippets&lt;/h1&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>danielmichaels</title><link href="https://danielmichaels.github.io/" rel="alternate"></link><link href="https://danielmichaels.github.io/feeds/all.atom.xml" rel="self"></link><id>https://danielmichaels.github.io/</id><updated>2018-03-22T14:37:45+11:00</updated><entry><title>TIL How Network Time Protocol Works</title><link href="https://danielmichaels.github.io/posts/2018/Mar/til-how-network-time-protocol-works/" rel="alternate"></link><published>2018-03-22T14:37:45+11:00</published><updated>2018-03-22T14:37:45+11:00</updated><author><name>Dan</name></author><id>tag:danielmichaels.github.io,2018-03-22:/posts/2018/Mar/til-how-network-time-protocol-works/</id><summary type="html">&lt;h1&gt;Network Time Protocol&lt;/h1&gt;
+&lt;p&gt;So today I watched a &lt;a href="https://www.youtube.com/watch?v=MDmNvVG9AnQ"&gt;talk&lt;/a&gt; on NTP and it was amazing. I will do my best to summarise the core parts in this post.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;What is it?&lt;/h2&gt;
+&lt;p&gt;Network Time Protocol allows clocks between computers to be synchronised over the internet or local area network. It was …&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Network Time Protocol&lt;/h1&gt;
+&lt;p&gt;So today I watched a &lt;a href="https://www.youtube.com/watch?v=MDmNvVG9AnQ"&gt;talk&lt;/a&gt; on NTP and it was amazing. I will do my best to summarise the core parts in this post.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;What is it?&lt;/h2&gt;
+&lt;p&gt;Network Time Protocol allows clocks between computers to be synchronised over the internet or local area network. It was developed by &lt;a href="https://en.wikipedia.org/wiki/David_L._Mills"&gt;David L. Mills&lt;/a&gt; in 1985 and is currently in its fourth version. Accurate to a few milliseconds of Coordinated Universal Time, NTP is a fundamental instrument in modern networking.&lt;/p&gt;
+&lt;h2&gt;Why do we need it?&lt;/h2&gt;
+&lt;p&gt;Its pretty important that we all agree on what time it is. It is even more important that banks and other financial institutions agree on a universal time stamp when conducting transactions, especially if they are ordered chronologically. Things like SSL certificates could be spoofed or bypassed if NTP did not ensure a universal time. There is probably many other security related issues that NTP solves but I think the point is clear, its a necessary protocol.&lt;/p&gt;
+&lt;h2&gt;How does it get the "right" time?&lt;/h2&gt;
+&lt;p&gt;Most people have heard of &lt;a href="https://en.wikipedia.org/wiki/Atomic_clock"&gt;atomic clocks&lt;/a&gt; or GPS time. Basically, these methods are considered as accurate as humans can calculate to 'real' time. It would be simplistic to say that NTP polls these sources for the current time - but nonetheless that's the basic premise.&lt;/p&gt;
+&lt;p&gt;Diving deeper, NTP actually uses things called a 'Stratum'. An atomic clock is a Stratum 0, also known as a reference clock. The Stratum's go from 0 all the way to 16. Stratum 1 is the closest an NTP server can get to the reference clock, and is usually within a few milliseconds. These are referred to as primary time servers. Each Stratum refers to the preceding number, and polls that server for its time. Stratum 3 will synchronise to a Stratum 2 server for example. They can and often do peer with servers in their own Stratum as a sanity check and backup. Of note Stratum 16 means 'unsynchronised'.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;The Process&lt;/h2&gt;
+&lt;p&gt;Roughly the process follows something like this:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;ask for the time,&lt;/li&gt;
+&lt;li&gt;get the roundtrip times,&lt;/li&gt;
+&lt;li&gt;figure out if you trust the response,&lt;/li&gt;
+&lt;li&gt;make any adjustments,&lt;/li&gt;
+&lt;li&gt;repeat every 64 seconds, forever.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Roundtrip Times&lt;/h3&gt;
+&lt;p&gt;After asking the time from a server, NTP needs to factor in how long it took to get the response back because the time from when it sent the response to receiving it will now be out of sync.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# The four timestamps needed for calculating the time&lt;/span&gt;
+&lt;span class="nv"&gt;t1&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; timestamp of request packet
+&lt;span class="nv"&gt;t2&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; timestamp when server received packet
+&lt;span class="nv"&gt;t3&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; timestamp of servers reply transmission
+&lt;span class="nv"&gt;t4&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; clients response packet reception timestamp
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Example of NTP packet&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="m"&gt;13&lt;/span&gt;:11:58.155997 IP &lt;span class="o"&gt;(&lt;/span&gt;tos 0x0, ttl &lt;span class="m"&gt;56&lt;/span&gt;, id &lt;span class="m"&gt;42684&lt;/span&gt;, offset &lt;span class="m"&gt;0&lt;/span&gt;, flags &lt;span class="o"&gt;[&lt;/span&gt;none&lt;span class="o"&gt;]&lt;/span&gt;, proto UDP &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;17&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;, length &lt;span class="m"&gt;76&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+    cpe-110-141-196-84.vic.asp.telstra.net.ntp &amp;gt; client.local.lan.ntp: &lt;span class="o"&gt;[&lt;/span&gt;udp sum ok&lt;span class="o"&gt;]&lt;/span&gt; NTPv4, length &lt;span class="m"&gt;48&lt;/span&gt;
+    Server, Leap indicator:  &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;, Stratum &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;primary reference&lt;span class="o"&gt;)&lt;/span&gt;, poll &lt;span class="m"&gt;10&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;1024s&lt;span class="o"&gt;)&lt;/span&gt;, precision -23
+    Root Delay: &lt;span class="m"&gt;0&lt;/span&gt;.000000, Root dispersion: &lt;span class="m"&gt;0&lt;/span&gt;.001953, Reference-ID: PPS^@
+      Reference Timestamp:  &lt;span class="m"&gt;3730684254&lt;/span&gt;.163282214 &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;2018&lt;/span&gt;/03/22 &lt;span class="m"&gt;13&lt;/span&gt;:10:54&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;# t1&lt;/span&gt;
+      Originator Timestamp: &lt;span class="m"&gt;3730684318&lt;/span&gt;.091658531 &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;2018&lt;/span&gt;/03/22 &lt;span class="m"&gt;13&lt;/span&gt;:11:58&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;# t2&lt;/span&gt;
+      Receive Timestamp:    &lt;span class="m"&gt;3730684318&lt;/span&gt;.125586175 &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;2018&lt;/span&gt;/03/22 &lt;span class="m"&gt;13&lt;/span&gt;:11:58&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;# t3&lt;/span&gt;
+      Transmit Timestamp:   &lt;span class="m"&gt;3730684318&lt;/span&gt;.125623665 &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;2018&lt;/span&gt;/03/22 &lt;span class="m"&gt;13&lt;/span&gt;:11:58&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;# t4&lt;/span&gt;
+        Originator - Receive Timestamp:  +0.033927643
+        Originator - Transmit Timestamp: +0.033965133
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;To calculate the current time from the servers response NTP does the following calculation:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;t4 - t1 = roundtrip time
+roundtrip time / 2 = one-way latency
+t3 + one-way latency = current time
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The next part of this is whether or not the client trusts the NTP server. This is done in a few ways. Firstly, by sending out several queries to several servers rather than trusting that the response from one server is correct. NTP then favours the lowest latency and discards any outliers. Secondly, NTP uses some statistical analysis of its responses over a period of minutes to determines who is accurate and who isn't based off those statistics.&lt;/p&gt;
+&lt;h3&gt;Make Adjustments&lt;/h3&gt;
+&lt;p&gt;What NTP tries to never do is go backwards in time. Sometimes it has to and we will get to that. But for the most part what it does it 'slew' the clock. Simply it just slows or speeds up the clock to match the correct time and does this in a gradual way with small increments.&lt;/p&gt;
+&lt;p&gt;At its max adjustment speed of 500ppm it would take 2000 seconds to make an adjustment of just one second!&lt;/p&gt;
+&lt;p&gt;Given the slow slew rate, slewing is capped to 128 milliseconds. Anything above that cannot be slewed and must be 'stepped' or jumped to the correct time, be it forward or backward. This does not happen often except in cases such as bringing a machine back online after maintenance or during initial setup. Any machine that is over 1000 seconds out must be manually configured within that threshold or it will not be able to receive adjustments.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;That's Network Time Protocol in a nutshell. I had never paid much heed to NTP prior to &lt;a href="https://twitter.com/jpotischj"&gt;Joel Potischman's&lt;/a&gt; talk at !!Con. He gave a great talk and it only goes for ten minutes and uses some good graphs and visualisations that are missing from this post. If you want to see NTP in action on your computer you can use &lt;code&gt;tcpdump -vv port 123&lt;/code&gt; or check it out in wireshark. Whilst writing this I found a bad response from one server that was +1023 seconds out and thus dropped as an outlier - so it does happen.&lt;/p&gt;</content><category term="linux"></category><category term="til"></category></entry><entry><title>Scapy rssi snippet</title><link href="https://danielmichaels.github.io/posts/2018/Feb/scapy-rssi-snippet/" rel="alternate"></link><published>2018-02-28T00:00:00+11:00</published><updated>2018-02-28T00:00:00+11:00</updated><author><name>Dan</name></author><id>tag:danielmichaels.github.io,2018-02-28:/posts/2018/Feb/scapy-rssi-snippet/</id><summary type="html">&lt;h1&gt;Scapy Snippets&lt;/h1&gt;
 &lt;h2&gt;How to get RSSI from WLAN packet&lt;/h2&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;scapy.layers.dot11&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;RadioTap&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Dot11&lt;/span&gt;
 

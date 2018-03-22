@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html lang="en"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Dan">
+  <meta name="description" content="A tech blog with posts and writings on programming, systems administration, electronics and interesting topics">
+  <title>
+    danielmichaels
+&ndash; TIL How Network Time Protocol Works  </title>
+
+  <link href="//fonts.googleapis.com/css?family=Open+Sans:600,800" rel="stylesheet" type="text/css">
+  <link rel="shortcut icon" href="https://danielmichaels.github.io/favicon.ico?v=2">
+  <link href="https://danielmichaels.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="danielmichaels Atom" />
+
+  <link rel="stylesheet" href="https://danielmichaels.github.io/theme/css/style.min.css?feffd13e">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  
+<meta name="keywords" content="linux, til">
+</head>
+<body>
+  <div class="container">
+    <div class="four columns sidebar">
+<nav>
+  <h1>Hi.</h1>
+  <a href="https://danielmichaels.github.io/">
+    <img src="https://danielmichaels.github.io/cover.jpeg" id="gravatar" alt="My photo"/>
+  </a>
+  <h2><a href="https://danielmichaels.github.io/">I'm Dan</a></h2>
+
+  <div id="bio">
+    <p>Technocrat, Aspiring Developer, Thinker, Practitioner of Shosin.</p>
+  </div>
+
+  <div id="social">
+Follow me:
+<div id="stalker">
+
+
+  <a title="danielmichaels on Github" href="https://github.com/danielmichaels">
+    <i class="fa fa-github"></i>
+  </a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<a title="Atom feed" href="https://danielmichaels.github.io/feeds/all.atom.xml">
+  <i class="fa fa-rss"></i>
+</a>
+</div>  </div>
+
+  <div id="tags">
+    <ul>
+      <li><a href="#" target="_blank">About Me<span style="font-size: 0.7em">&#8599;</span> </a></li>
+      <li><a href="#" target="_blank">Projects<span style="font-size: 0.7em">&#8599;</span> </a></li>
+      <li><a href="http://python.org/" target="_blank">Python.org<span style="font-size: 0.7em">&#8599;</span> </a></li>
+      <li><a href="http://jinja.pocoo.org/" target="_blank">Jinja2<span style="font-size: 0.7em">&#8599;</span> </a></li>
+      </ul>
+  </div>
+</nav>    </div>
+
+    <div class="eleven columns content">
+  <p class="meta">
+    22 March 2018
+    <a href="/">
+      <i class="home fa fa-home"></i>
+    </a>
+  </p>
+
+  <h1 class="title"><a href="https://danielmichaels.github.io/posts/2018/Mar/til-how-network-time-protocol-works/">TIL How Network Time Protocol Works</a></h1>
+  
+  <div class="article_text" id="post">
+    <h1>Network Time Protocol</h1>
+<p>So today I watched a <a href="https://www.youtube.com/watch?v=MDmNvVG9AnQ">talk</a> on NTP and it was amazing. I will do my best to summarise the core parts in this post.</p>
+<hr>
+<h2>What is it?</h2>
+<p>Network Time Protocol allows clocks between computers to be synchronised over the internet or local area network. It was developed by <a href="https://en.wikipedia.org/wiki/David_L._Mills">David L. Mills</a> in 1985 and is currently in its fourth version. Accurate to a few milliseconds of Coordinated Universal Time, NTP is a fundamental instrument in modern networking.</p>
+<h2>Why do we need it?</h2>
+<p>Its pretty important that we all agree on what time it is. It is even more important that banks and other financial institutions agree on a universal time stamp when conducting transactions, especially if they are ordered chronologically. Things like SSL certificates could be spoofed or bypassed if NTP did not ensure a universal time. There is probably many other security related issues that NTP solves but I think the point is clear, its a necessary protocol.</p>
+<h2>How does it get the "right" time?</h2>
+<p>Most people have heard of <a href="https://en.wikipedia.org/wiki/Atomic_clock">atomic clocks</a> or GPS time. Basically, these methods are considered as accurate as humans can calculate to 'real' time. It would be simplistic to say that NTP polls these sources for the current time - but nonetheless that's the basic premise.</p>
+<p>Diving deeper, NTP actually uses things called a 'Stratum'. An atomic clock is a Stratum 0, also known as a reference clock. The Stratum's go from 0 all the way to 16. Stratum 1 is the closest an NTP server can get to the reference clock, and is usually within a few milliseconds. These are referred to as primary time servers. Each Stratum refers to the preceding number, and polls that server for its time. Stratum 3 will synchronise to a Stratum 2 server for example. They can and often do peer with servers in their own Stratum as a sanity check and backup. Of note Stratum 16 means 'unsynchronised'.</p>
+<hr>
+<h2>The Process</h2>
+<p>Roughly the process follows something like this:</p>
+<ul>
+<li>ask for the time,</li>
+<li>get the roundtrip times,</li>
+<li>figure out if you trust the response,</li>
+<li>make any adjustments,</li>
+<li>repeat every 64 seconds, forever.</li>
+</ul>
+<h3>Roundtrip Times</h3>
+<p>After asking the time from a server, NTP needs to factor in how long it took to get the response back because the time from when it sent the response to receiving it will now be out of sync.</p>
+<div class="highlight"><pre><span></span><span class="c1"># The four timestamps needed for calculating the time</span>
+<span class="nv">t1</span> <span class="o">=</span> timestamp of request packet
+<span class="nv">t2</span> <span class="o">=</span> timestamp when server received packet
+<span class="nv">t3</span> <span class="o">=</span> timestamp of servers reply transmission
+<span class="nv">t4</span> <span class="o">=</span> clients response packet reception timestamp
+</pre></div>
+
+
+<p>Example of NTP packet</p>
+<div class="highlight"><pre><span></span><span class="m">13</span>:11:58.155997 IP <span class="o">(</span>tos 0x0, ttl <span class="m">56</span>, id <span class="m">42684</span>, offset <span class="m">0</span>, flags <span class="o">[</span>none<span class="o">]</span>, proto UDP <span class="o">(</span><span class="m">17</span><span class="o">)</span>, length <span class="m">76</span><span class="o">)</span>
+    cpe-110-141-196-84.vic.asp.telstra.net.ntp &gt; client.local.lan.ntp: <span class="o">[</span>udp sum ok<span class="o">]</span> NTPv4, length <span class="m">48</span>
+    Server, Leap indicator:  <span class="o">(</span><span class="m">0</span><span class="o">)</span>, Stratum <span class="m">1</span> <span class="o">(</span>primary reference<span class="o">)</span>, poll <span class="m">10</span> <span class="o">(</span>1024s<span class="o">)</span>, precision -23
+    Root Delay: <span class="m">0</span>.000000, Root dispersion: <span class="m">0</span>.001953, Reference-ID: PPS^@
+      Reference Timestamp:  <span class="m">3730684254</span>.163282214 <span class="o">(</span><span class="m">2018</span>/03/22 <span class="m">13</span>:10:54<span class="o">)</span> <span class="c1"># t1</span>
+      Originator Timestamp: <span class="m">3730684318</span>.091658531 <span class="o">(</span><span class="m">2018</span>/03/22 <span class="m">13</span>:11:58<span class="o">)</span> <span class="c1"># t2</span>
+      Receive Timestamp:    <span class="m">3730684318</span>.125586175 <span class="o">(</span><span class="m">2018</span>/03/22 <span class="m">13</span>:11:58<span class="o">)</span> <span class="c1"># t3</span>
+      Transmit Timestamp:   <span class="m">3730684318</span>.125623665 <span class="o">(</span><span class="m">2018</span>/03/22 <span class="m">13</span>:11:58<span class="o">)</span> <span class="c1"># t4</span>
+        Originator - Receive Timestamp:  +0.033927643
+        Originator - Transmit Timestamp: +0.033965133
+</pre></div>
+
+
+<p>To calculate the current time from the servers response NTP does the following calculation:</p>
+<div class="highlight"><pre><span></span>t4 - t1 = roundtrip time
+roundtrip time / 2 = one-way latency
+t3 + one-way latency = current time
+</pre></div>
+
+
+<p>The next part of this is whether or not the client trusts the NTP server. This is done in a few ways. Firstly, by sending out several queries to several servers rather than trusting that the response from one server is correct. NTP then favours the lowest latency and discards any outliers. Secondly, NTP uses some statistical analysis of its responses over a period of minutes to determines who is accurate and who isn't based off those statistics.</p>
+<h3>Make Adjustments</h3>
+<p>What NTP tries to never do is go backwards in time. Sometimes it has to and we will get to that. But for the most part what it does it 'slew' the clock. Simply it just slows or speeds up the clock to match the correct time and does this in a gradual way with small increments.</p>
+<p>At its max adjustment speed of 500ppm it would take 2000 seconds to make an adjustment of just one second!</p>
+<p>Given the slow slew rate, slewing is capped to 128 milliseconds. Anything above that cannot be slewed and must be 'stepped' or jumped to the correct time, be it forward or backward. This does not happen often except in cases such as bringing a machine back online after maintenance or during initial setup. Any machine that is over 1000 seconds out must be manually configured within that threshold or it will not be able to receive adjustments.</p>
+<hr>
+<h2>Conclusion</h2>
+<p>That's Network Time Protocol in a nutshell. I had never paid much heed to NTP prior to <a href="https://twitter.com/jpotischj">Joel Potischman's</a> talk at !!Con. He gave a great talk and it only goes for ten minutes and uses some good graphs and visualisations that are missing from this post. If you want to see NTP in action on your computer you can use <code>tcpdump -vv port 123</code> or check it out in wireshark. Whilst writing this I found a bad response from one server that was +1023 seconds out and thus dropped as an outlier - so it does happen.</p>
+  </div>
+
+  <div class="article_meta related">
+    <h3>Category: </h3>
+    <span><a href="https://danielmichaels.github.io/category/til.html">TIL</span>
+    
+    <h3>Tags:</h3>
+    <span>
+      <a href="https://danielmichaels.github.io/tag/linux.html">linux</a>,      <a href="https://danielmichaels.github.io/tag/til.html">til</a>    </span>
+  </div>
+
+
+
+      <div class="footer">
+<div class="disclaimer">
+  
+    <p>
+      © Dan, 2018 &mdash; built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a href="https://github.com/karambir/taman" target="_blank">Taman</a>, a port of jekyll theme <a href="https://github.com/swanson/lagom" target="_blank">Lagom</a>.
+    </p>
+  </div>      </div>
+    </div>
+  </div>
+
+</body>
+</html>
