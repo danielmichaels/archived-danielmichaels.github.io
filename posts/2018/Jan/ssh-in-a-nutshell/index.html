@@ -13,10 +13,10 @@
 &ndash; SSH in a nutshell  </title>
 
   <link href="//fonts.googleapis.com/css?family=Open+Sans:600,800" rel="stylesheet" type="text/css">
-  <link rel="shortcut icon" href="https://danielmichaels.github.io/favicon.ico?v=2">
-  <link href="https://danielmichaels.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Dan's Site Atom" />
+  <link rel="shortcut icon" href="https://danielms.site/favicon.ico?v=2">
+  <link href="https://danielms.site/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Dan's Site Atom" />
 
-  <link rel="stylesheet" href="https://danielmichaels.github.io/theme/css/style.min.css?feffd13e">
+  <link rel="stylesheet" href="https://danielms.site/theme/css/style.min.css?feffd13e">
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
   
 <meta name="keywords" content="ssh">
@@ -26,10 +26,10 @@
     <div class="four columns sidebar">
 <nav>
   <h1>Hi.</h1>
-  <a href="https://danielmichaels.github.io/">
-    <img src="https://danielmichaels.github.io/cover.jpeg" id="gravatar" alt="My photo"/>
+  <a href="https://danielms.site/">
+    <img src="https://danielms.site/cover.jpeg" id="gravatar" alt="My photo"/>
   </a>
-  <h2><a href="https://danielmichaels.github.io/">I'm Dan</a></h2>
+  <h2><a href="https://danielms.site/">I'm Dan</a></h2>
 
   <div id="bio">
     <p>Technocrat, Aspiring Developer, Thinker, Practitioner of Shosin.</p>
@@ -70,7 +70,7 @@ Follow me:
 
 
 
-<a title="Atom feed" href="https://danielmichaels.github.io/feeds/all.atom.xml">
+<a title="Atom feed" href="https://danielms.site/feeds/all.atom.xml">
   <i class="fa fa-rss"></i>
 </a>
 </div>  </div>
@@ -93,7 +93,7 @@ Follow me:
     </a>
   </p>
 
-  <h1 class="title"><a href="https://danielmichaels.github.io/posts/2018/Jan/ssh-in-a-nutshell/">SSH in a nutshell</a></h1>
+  <h1 class="title"><a href="https://danielms.site/posts/2018/Jan/ssh-in-a-nutshell/">SSH in a nutshell</a></h1>
   
   <div class="article_text" id="post">
     <h1>SSH</h1>
@@ -117,7 +117,7 @@ also be forwarded over the secure channel.</em></p>
 <p>If no flag is present it will default to RSA which is what we want. </p>
 <p>Also important is the number of bits in the key to generate. By default it will generate a key length of 2048 bits. In this article we will not discuss non-RSA configurations which require different lengths (refer to the man pages for more info). Generally it is recommended to use 4096 bits of entropy, to do that we use the <code>-b</code> followed by the number, in this case 4096.</p>
 <p>Running <code>ssh-keygen -t rsa -b 4096</code> will create the ssh key.</p>
-<p><img alt=" " src="https://danielmichaels.github.io/posts/2018/Jan/ssh-in-a-nutshell/images/sshcmdline.png">
+<p><img alt=" " src="https://danielms.site/posts/2018/Jan/ssh-in-a-nutshell/images/sshcmdline.png">
 Output will look something akin to this.</p>
 <p>It will ask for a password, this is up to the user but it does not limit your ability to login without entering password as we discuss below. It does however, offer protection should your device be stolen or compromised. The password can be bruteforced but it will give you time to manually for to your administered servers and delete the public key that matches the now stolen private key. </p>
 <h3>Key Based Authentication</h3>
@@ -171,11 +171,11 @@ chmod 600 /home/user/.ssh/authorized_keys
 
   <div class="article_meta related">
     <h3>Category: </h3>
-    <span><a href="https://danielmichaels.github.io/category/administration.html">administration</span>
+    <span><a href="https://danielms.site/category/administration.html">administration</span>
     
     <h3>Tags:</h3>
     <span>
-      <a href="https://danielmichaels.github.io/tag/ssh.html">ssh</a>    </span>
+      <a href="https://danielms.site/tag/ssh.html">ssh</a>    </span>
   </div>
 
 
