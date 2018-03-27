@@ -55,11 +55,13 @@ PLUGINS = ['assets']
 STATIC_PATHS = [
         'images',
         'extra/favicon.ico',
-        'extra/cover.jpeg'
+        'extra/cover.jpeg',
+        'extra/CNAME'
         ]
 EXTRA_PATH_METADATA = {
         'extra/favicon.ico': {'path':'favicon.ico'},
-        'extra/cover.jpeg': {'path':'cover.jpeg'}
+        'extra/cover.jpeg': {'path':'cover.jpeg'},
+        'extra/CNAME': {'path':'CNAME'}
         }
 #MD_EXTENSIONS = ['fenced_code', 'codehilite(css_class=highlight, linenums=True)', 'extra']
 USER_FAVICON_URL = '/favicon.ico'
