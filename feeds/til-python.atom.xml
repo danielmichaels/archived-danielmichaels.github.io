@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Dan's Site - TIL, python</title><link href="https://danielms.site/" rel="alternate"></link><link href="https://danielms.site/feeds/til-python.atom.xml" rel="self"></link><id>https://danielms.site/</id><updated>2018-04-07T00:00:00+10:00</updated><entry><title>AchievementUnlocked['pypi_upload']</title><link href="https://danielms.site/posts/2018/Apr/achievementunlockedpypi_upload/" rel="alternate"></link><published>2018-04-07T00:00:00+10:00</published><updated>2018-04-07T00:00:00+10:00</updated><author><name>Dan</name></author><id>tag:danielms.site,2018-04-07:/posts/2018/Apr/achievementunlockedpypi_upload/</id><summary type="html">&lt;h1&gt;Python Package Index&lt;/h1&gt;
+&lt;p&gt;Python has a wonderful community and package ecosystem. It currently has over 130,000 packages for download and a large variety to choose from. To download a python package via the &lt;code&gt;pip&lt;/code&gt; command, the package must be uploaded to the Python Package Index, or &lt;a href="https://pypi.org/"&gt;PyPI&lt;/a&gt;. Going forward …&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Python Package Index&lt;/h1&gt;
+&lt;p&gt;Python has a wonderful community and package ecosystem. It currently has over 130,000 packages for download and a large variety to choose from. To download a python package via the &lt;code&gt;pip&lt;/code&gt; command, the package must be uploaded to the Python Package Index, or &lt;a href="https://pypi.org/"&gt;PyPI&lt;/a&gt;. Going forward it may be referred to as the "warehouse" as PyPI is going through an upgrade of its infrastructure and for the better.&lt;/p&gt;
+&lt;h2&gt;Have application, now what?&lt;/h2&gt;
+&lt;p&gt;PyPI offers two servers for the uploading of python packages; testing and production.&lt;/p&gt;
+&lt;p&gt;Sending the package to the test server is a great idea as it allows you to download your tarball onto any system for testing. This allows you to do a few novel things like sharing it with friends or co-workers, spinning up virtual machine's with different operating systems or installing it into separate virtual environments with different versions of python.&lt;/p&gt;
+&lt;p&gt;This article does assume you are using a version control system, and in particular GitHub but this is not a requirement for PyPI.&lt;/p&gt;
+&lt;h2&gt;Productionise your code&lt;/h2&gt;
+&lt;p&gt;Before looking at how to upload your modules, first it must be made ready for release into the wild. &lt;/p&gt;
+&lt;h2&gt;Directory Structure&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;root-dir/           &lt;span class="c1"&gt;# The directory which all your files live.&lt;/span&gt;
+    setup.py        &lt;span class="c1"&gt;# covered below (Required)&lt;/span&gt;
+    setup.cfg       &lt;span class="c1"&gt;# if using markdown rather than ReStructuredText&lt;/span&gt;
+    LICENSE.txt     &lt;span class="c1"&gt;# should be required!&lt;/span&gt;
+    README.md       &lt;span class="c1"&gt;# Also should be required!&lt;/span&gt;
+    tests/          &lt;span class="c1"&gt;# tests are a good idea&lt;/span&gt;
+        test.py
+    your-package/
+        __init__.py
+        awesome.py
+        wicked.py
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;If you look at any great package such as &lt;a href="https://github.com/requests/requests"&gt;Requests&lt;/a&gt; or &lt;a href="https://github.com/nicolargo/glances"&gt;Glances&lt;/a&gt; you will see a similar (although much more intricate) structure. The key files we &lt;strong&gt;need&lt;/strong&gt; are &lt;code&gt;setup.py&lt;/code&gt; and &lt;code&gt;setup.cfg&lt;/code&gt; if using Markdown.&lt;/p&gt;
+&lt;h2&gt;Setup.py&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# setup.py&lt;/span&gt;
+
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;codecs&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nb"&gt;open&lt;/span&gt;
+&lt;span class="c1"&gt;# ensure consistent encoding&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;setuptools&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;setup&lt;/span&gt;
+&lt;span class="c1"&gt;# always prefer over distutils&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;os&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;path&lt;/span&gt;
+
+&lt;span class="n"&gt;__VERSION__&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;0.1.0&amp;#39;&lt;/span&gt;
+&lt;span class="n"&gt;__URL__&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;https://github.com/username/package&amp;#39;&lt;/span&gt;
+&lt;span class="n"&gt;__DOWNLOAD_URL__&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;__URL__&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;/tarball/&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;__VERSION__&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;here&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;abspath&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;dirname&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="vm"&gt;__file__&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+&lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="nb"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;here&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;README.md&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;encoding&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;utf-8&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;long_description&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;read&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+&lt;span class="n"&gt;setup&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+    &lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;yourpackage&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="n"&gt;packages&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;yourpackage&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+    &lt;span class="n"&gt;version&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;__VERSION__&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="n"&gt;description&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;blurb that users first see to decide if interesting&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="n"&gt;long_description&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;long_description&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="n"&gt;long_description_content_type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;text/markdown&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="n"&gt;author&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Optional&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="n"&gt;author_email&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Optional&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="n"&gt;url&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;__URL__&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="n"&gt;download_url&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;__DOWNLOAD_URL__&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="n"&gt;keywords&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;search&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;engine&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;keywords&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+    &lt;span class="n"&gt;classifiers&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;
+        &lt;span class="c1"&gt;#   3 - Alpha&lt;/span&gt;
+        &lt;span class="c1"&gt;#   4 - Beta&lt;/span&gt;
+        &lt;span class="c1"&gt;#   5 - Production/Stable&lt;/span&gt;
+        &lt;span class="s1"&gt;&amp;#39;Development Status :: 3 - Alpha&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="s1"&gt;&amp;#39;Intended Audience :: Developers&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="s1"&gt;&amp;#39;License :: OSI Approved :: MIT License&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="s1"&gt;&amp;#39;Programming Language :: Python :: 3&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="s1"&gt;&amp;#39;Programming Language :: Python :: 3.5&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="s1"&gt;&amp;#39;Programming Language :: Python :: 3.6&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The information contained within &lt;code&gt;setup.py&lt;/code&gt; and in particular its &lt;code&gt;setup()&lt;/code&gt; function is what creates the package's metadata for parsing by PyPI once uploaded.&lt;/p&gt;
+&lt;p&gt;This is a stripped down version of my own &lt;code&gt;setup.py&lt;/code&gt;. Many tutorials which are older will use &lt;code&gt;distutils&lt;/code&gt; but PyPI's &lt;a href="https://github.com/pypa/sampleproject"&gt;example&lt;/a&gt; structure explicitly states to favour the newer &lt;code&gt;setuptools&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;By using a context manager and the &lt;code&gt;codecs.open&lt;/code&gt; method we can read the README.md file for use in the &lt;code&gt;long_description&lt;/code&gt; parameter within &lt;code&gt;setup()&lt;/code&gt;. This is a requirement for the PyPI server as it by default only parses ReStructuredText. If using README.rst, this can be ignored. Further, the &lt;code&gt;long_description_content_type='text/markdown'&lt;/code&gt; must be included or it will not format the content correctly. This is a very recent addition to PyPI - March 2018.&lt;/p&gt;
+&lt;p&gt;Also, the &lt;code&gt;version&lt;/code&gt; is what sets the tarball filename, so creating an easy to adjust global variable makes it a lot easier to amend this file when updating your package. As you can see there is three locations that need to be updated for it to function correctly. (Thanks to &lt;a href="https://dbader.org/"&gt;Dan Bader&lt;/a&gt; for the idea.)&lt;/p&gt;
+&lt;p&gt;Please refer to the example page for more information, particularly if your package is more complex than just a few modules.&lt;/p&gt;
+&lt;h2&gt;Setup.cfg&lt;/h2&gt;
+&lt;p&gt;This is just required for Markdown parsing. As you may see it might just be easier to utilise the default supported .rst files. Something I may do in the future.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;metadata&lt;span class="o"&gt;]&lt;/span&gt;
+description-file &lt;span class="o"&gt;=&lt;/span&gt; README.md
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Python setup.py sdist&lt;/h2&gt;
+&lt;p&gt;Running this command will invoke the &lt;code&gt;setup.py&lt;/code&gt; and create a hidden folder called &lt;code&gt;dist/&lt;/code&gt; inside your root directory. This is where your application's tarball will now live. It is also a good time to create or update your git tags for your repository.&lt;/p&gt;
+&lt;p&gt;FYI, once you create a local tag it must be pushed to the remote.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git tag X.Y.Z -m &lt;span class="s2"&gt;&amp;quot;Add a message such as; First!&amp;quot;&lt;/span&gt;
+git push X.Y.Z      &lt;span class="c1"&gt;# preferred option&lt;/span&gt;
+git push --tags     &lt;span class="c1"&gt;# less preferred as it pushs ALL tags to the remote server&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Upload: y u no easy&lt;/h2&gt;
+&lt;p&gt;In theory uploading to PyPI is just that simple. Unfortunately it isn't that easy and a lot of the helpful blogs and references out there aren't current with the new standards. As always the official user guide (&lt;a href="https://packaging.python.org/tutorials/distributing-packages/#uploading-your-project-to-pypi"&gt;here&lt;/a&gt;) is the holy grail but isn't the easiest reading when completely unsure! &lt;/p&gt;
+&lt;h2&gt;1. Register&lt;/h2&gt;
+&lt;p&gt;To upload anything to PyPI you must first register with it. And if you want to make use of the testing server, you must register with it separately. Although they use the same software, each server uses a separate database and this is why two different sign up's are required. They can be found here for &lt;a href="https://pypi.org/account/register/"&gt;Live&lt;/a&gt; and &lt;a href="https://test.pypi.org/account/register/"&gt;Test&lt;/a&gt;.&lt;/p&gt;
+&lt;h2&gt;2. Create .pypirc&lt;/h2&gt;
+&lt;p&gt;This file allows your development machine to talk to the PyPI servers. It should look something like this.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# ~/.pypirc&lt;/span&gt;
+
+&lt;span class="o"&gt;[&lt;/span&gt;distutils&lt;span class="o"&gt;]&lt;/span&gt;
+index-servers &lt;span class="o"&gt;=&lt;/span&gt; 
+  pypi
+  pypitest
+
+&lt;span class="o"&gt;[&lt;/span&gt;pypi&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;span class="nv"&gt;repository&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;https://upload.pypi.org/legacy/
+&lt;span class="nv"&gt;username&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;username
+
+&lt;span class="o"&gt;[&lt;/span&gt;pypitest&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;span class="nv"&gt;repository&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;https://test.pypi.org/legacy/
+&lt;span class="nv"&gt;username&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;username
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;This is current to today's date but the repository url may change as the PyPI warehouse continues its evolution. The file &lt;strong&gt;must&lt;/strong&gt; be located in the home directory. Both username and password can be set in this file, or in environment variables. &lt;/p&gt;
+&lt;h2&gt;3. Install Twine&lt;/h2&gt;
+&lt;p&gt;What is it and why use it? Twine is a package written by the PyPI maintainers that uses SSL by default when sending information to their endpoint. Python versions before 2.7.9 and 3.2 do not use this by default and spill user credentials over the air. Also twine separates the creation of the package tarball and uploading into two logical commands; setuptools does not - they are done in the same invocation. &lt;/p&gt;
+&lt;p&gt;Tarball? To send your package to the server it first must be compressed into a single file. So basically, you zip your files to send and when &lt;code&gt;pip install xxxx&lt;/code&gt; is called your tarball is downloaded and unzipped at the end user. This is an important point because any changes you make after creating your tarball are not included in the package so you will need to rezip it to include them.&lt;/p&gt;
+&lt;p&gt;Personally, I install twine on the system interpreter and update it along with setup tools frequently.&lt;/p&gt;
+&lt;h2&gt;4. Upload!&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;twine upload -r pypitest dist/package-version-i-select-explicitly.0.1.0.tar.gz
+&amp;gt;&amp;gt;&amp;gt; Uploading distributions to https://test.pypi.org/legacy/
+&amp;gt;&amp;gt;&amp;gt; Enter your password:
+&amp;gt;&amp;gt;&amp;gt; Uploading package-version-i-select-explicitly.0.1.0.tar.gz
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Using the &lt;code&gt;-r&lt;/code&gt; flag allows you to set which server to send the file too. This file name is setup in the &lt;code&gt;.pypirc&lt;/code&gt; file and if you have setup a username it will not prompt you for it. Likewise, it will not prompt for a password should you choose to enter that, and if you do consider &lt;code&gt;chmod 600&lt;/code&gt; on that file for security reasons.&lt;/p&gt;
+&lt;p&gt;In many examples you may see something like this:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;twine upload -r pypitest dist/*
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;This will upload all of your tarball's located in the &lt;code&gt;dist/&lt;/code&gt; directory. I personally choose which distribution to upload. Either, or. Once done, goto the test PyPI and check to see that it looks as expected, or as previously stated download the test file and check its functioning as expected. &lt;/p&gt;
+&lt;p&gt;This can be done like so:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;pip install --index-url https://test.pypi.org/simple/ yourPackageName
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Once happy send that baby to the production PyPI by repeating the commands but this time specifying the &lt;code&gt;pypi&lt;/code&gt; server like so:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;twine upload -r pypi dist/package-version-i-select-explicitly.0.1.0.tar.gz
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;You now have a production package in the wild. Check out your code at &lt;a href="https://libraries.io/"&gt;Libraries.io&lt;/a&gt;.&lt;/p&gt;
+&lt;h2&gt;5. Help PyPI&lt;/h2&gt;
+&lt;p&gt;None of this would be possible with the tireless work of the Python Software Foundation and the handful of volunteers that make PyPI a reality. Join the PSF and maybe consider a donation, or convince your employer to contribute if they rely on python software! Without PSF and PyPI we wouldn't have python as we know it today. 
+Please visit and sign up here: &lt;a href="https://psfmember.org/"&gt;PSF&lt;/a&gt;&lt;/p&gt;</content><category term="python"></category></entry></feed>
