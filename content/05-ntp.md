@@ -2,6 +2,7 @@ Title: TIL How Network Time Protocol Works
 Category: TIL
 Tags: linux, til
 Status: published
+Date: 23 Mar 2018
 
 # Network Time Protocol
 
