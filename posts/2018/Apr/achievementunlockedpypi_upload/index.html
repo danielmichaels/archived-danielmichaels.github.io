@@ -129,9 +129,9 @@ Follow me:
 <span class="c1"># always prefer over distutils</span>
 <span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">path</span>
 
-<span class="n">__VERSION__</span> <span class="o">=</span> <span class="s1">&#39;0.1.0&#39;</span>
-<span class="n">__URL__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/username/package&#39;</span>
-<span class="n">__DOWNLOAD_URL__</span> <span class="o">=</span> <span class="p">(</span><span class="n">__URL__</span> <span class="o">+</span> <span class="s1">&#39;/tarball/&#39;</span> <span class="o">+</span> <span class="n">__VERSION__</span><span class="p">)</span>
+<span class="n">VERSION</span> <span class="o">=</span> <span class="s1">&#39;0.1.0&#39;</span>
+<span class="n">URL</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/username/package&#39;</span>
+<span class="n">DOWNLOAD_URL</span> <span class="o">=</span> <span class="p">(</span><span class="n">URL</span> <span class="o">+</span> <span class="s1">&#39;/tarball/&#39;</span> <span class="o">+</span> <span class="n">VERSION</span><span class="p">)</span>
 
 <span class="n">here</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))</span>
 
@@ -141,15 +141,14 @@ Follow me:
 <span class="n">setup</span><span class="p">(</span>
     <span class="n">name</span><span class="o">=</span><span class="s1">&#39;yourpackage&#39;</span><span class="p">,</span>
     <span class="n">packages</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;yourpackage&#39;</span><span class="p">],</span>
-    <span class="n">version</span><span class="o">=</span><span class="n">__VERSION__</span><span class="p">,</span>
+    <span class="n">version</span><span class="o">=</span><span class="n">VERSION</span><span class="p">,</span>
     <span class="n">description</span><span class="o">=</span><span class="s1">&#39;blurb that users first see to decide if interesting&#39;</span><span class="p">,</span>
     <span class="n">long_description</span><span class="o">=</span><span class="n">long_description</span><span class="p">,</span>
     <span class="n">long_description_content_type</span><span class="o">=</span><span class="s1">&#39;text/markdown&#39;</span><span class="p">,</span>
     <span class="n">author</span><span class="o">=</span><span class="s1">&#39;Optional&#39;</span><span class="p">,</span>
     <span class="n">author_email</span><span class="o">=</span><span class="s1">&#39;Optional&#39;</span><span class="p">,</span>
-    <span class="n">url</span><span class="o">=</span><span class="n">__URL__</span><span class="p">,</span>
-    <span class="n">download_url</span><span class="o">=</span><span class="n">__DOWNLOAD_URL__</span><span class="p">,</span>
-    <span class="n">keywords</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;search&#39;</span><span class="p">,</span> <span class="s1">&#39;engine&#39;</span><span class="p">,</span> <span class="s1">&#39;keywords&#39;</span><span class="p">],</span>
+    <span class="n">url</span><span class="o">=</span><span class="n">URL</span><span class="p">,</span>
+    <span class="n">download_url</span><span class="o">=</span><span class="n">DOWNLOAD_URL</span><span class="p">,</span>
     <span class="n">classifiers</span><span class="o">=</span><span class="p">[</span>
         <span class="c1">#   3 - Alpha</span>
         <span class="c1">#   4 - Beta</span>
@@ -177,7 +176,7 @@ description-file <span class="o">=</span> README.md
 
 
 <h2>Python setup.py sdist</h2>
-<p>Running this command will invoke the <code>setup.py</code> and create a hidden folder called <code>dist/</code> inside your root directory. This is where your application's tarball will now live. It is also a good time to create or update your git tags for your repository.</p>
+<p>Running this command will invoke the <code>setup.py</code> and create a folder called <code>dist/</code> inside your root directory. This is where your application's tarball will now live. It is also a good time to create or update your git tags for your repository.</p>
 <p>FYI, once you create a local tag it must be pushed to the remote.</p>
 <div class="highlight"><pre><span></span>git tag X.Y.Z -m <span class="s2">&quot;Add a message such as; First!&quot;</span>
 git push X.Y.Z      <span class="c1"># preferred option</span>
