@@ -49,9 +49,9 @@ from setuptools import setup
 # always prefer over distutils
 from os import path
 
-__VERSION__ = '0.1.0'
-__URL__ = 'https://github.com/username/package'
-__DOWNLOAD_URL__ = (__URL__ + '/tarball/' + __VERSION__)
+VERSION = '0.1.0'
+URL = 'https://github.com/username/package'
+DOWNLOAD_URL = (URL + '/tarball/' + VERSION)
 
 here = path.abspath(path.dirname(__file__))
 
@@ -61,15 +61,14 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 setup(
     name='yourpackage',
     packages=['yourpackage'],
-    version=__VERSION__,
+    version=VERSION,
     description='blurb that users first see to decide if interesting',
     long_description=long_description,
     long_description_content_type='text/markdown',
     author='Optional',
     author_email='Optional',
-    url=__URL__,
-    download_url=__DOWNLOAD_URL__,
-    keywords=['search', 'engine', 'keywords'],
+    url=URL,
+    download_url=DOWNLOAD_URL,
     classifiers=[
         #   3 - Alpha
         #   4 - Beta
@@ -104,7 +103,7 @@ description-file = README.md
 
 ## Python setup.py sdist
 
-Running this command will invoke the `setup.py` and create a hidden folder called `dist/` inside your root directory. This is where your application's tarball will now live. It is also a good time to create or update your git tags for your repository.
+Running this command will invoke the `setup.py` and create a folder called `dist/` inside your root directory. This is where your application's tarball will now live. It is also a good time to create or update your git tags for your repository.
 
 FYI, once you create a local tag it must be pushed to the remote.
 
