@@ -1,4 +1,4 @@
-Title: AchievementUnlocked['pypi_upload']
+Title: Uploading to PyPI
 Date: 7 Apr 2018
 Status: Published
 Tags: python
