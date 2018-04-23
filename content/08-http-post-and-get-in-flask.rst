@@ -146,7 +146,6 @@ For clarity, first the html.
 And the flask part.
 
 .. code-block:: python
-    :linenos:
 
     # python: flask
     @app.route('/test')
