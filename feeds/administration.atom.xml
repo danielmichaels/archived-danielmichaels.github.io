@@ -1,198 +1,332 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Dan's Site - administration</title><link href="https://danielms.site/" rel="alternate"></link><link href="https://danielms.site/feeds/administration.atom.xml" rel="self"></link><id>https://danielms.site/</id><updated>2018-02-04T00:00:00+11:00</updated><entry><title>Linux file permissions</title><link href="https://danielms.site/posts/2018/Feb/linux-file-permissions/" rel="alternate"></link><published>2018-02-04T00:00:00+11:00</published><updated>2018-02-04T00:00:00+11:00</updated><author><name>Dan</name></author><id>tag:danielms.site,2018-02-04:/posts/2018/Feb/linux-file-permissions/</id><summary type="html">&lt;h1&gt;Linux: Chmod and Chown&lt;/h1&gt;
-&lt;hr&gt;
-&lt;h2&gt;&lt;strong&gt;Chmod: Change File Mode Bits&lt;/strong&gt;&lt;/h2&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="m"&gt;15&lt;/span&gt;:45:18 user@example temporary 
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Dan's Site - administration</title><link href="https://danielms.site/" rel="alternate"></link><link href="https://danielms.site/feeds/administration.atom.xml" rel="self"></link><id>https://danielms.site/</id><updated>2018-02-04T00:00:00+11:00</updated><entry><title>Linux file permissions</title><link href="https://danielms.site/posts/2018/Feb/linux-file-permissions/" rel="alternate"></link><published>2018-02-04T00:00:00+11:00</published><updated>2018-02-04T00:00:00+11:00</updated><author><name>Dan</name></author><id>tag:danielms.site,2018-02-04:/posts/2018/Feb/linux-file-permissions/</id><summary type="html">&lt;div class="section" id="linux-chmod-and-chown"&gt;
+&lt;h2&gt;Linux: Chmod and Chown&lt;/h2&gt;
+&lt;div class="section" id="chmod-change-file-mode-bits"&gt;
+&lt;h3&gt;&lt;strong&gt;Chmod: Change File Mode Bits&lt;/strong&gt;&lt;/h3&gt;
+&lt;pre class="code shell literal-block"&gt;
+&lt;span class="m"&gt;15&lt;/span&gt;:45:18 user&amp;#64;example temporary
 total 12K
 drwxr-xr-x  &lt;span class="m"&gt;2&lt;/span&gt; &lt;span class="nb"&gt;test&lt;/span&gt; users &lt;span class="m"&gt;4&lt;/span&gt;.0K Feb  &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;14&lt;/span&gt;:29 .
 drwx------ &lt;span class="m"&gt;33&lt;/span&gt; &lt;span class="nb"&gt;test&lt;/span&gt; users &lt;span class="m"&gt;4&lt;/span&gt;.0K Feb  &lt;span class="m"&gt;3&lt;/span&gt; &lt;span class="m"&gt;15&lt;/span&gt;:45 ..
 -rw-r--r--  &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="nb"&gt;test&lt;/span&gt; users    &lt;span class="m"&gt;0&lt;/span&gt; Jan &lt;span class="m"&gt;21&lt;/span&gt; &lt;span class="m"&gt;12&lt;/span&gt;:14 &lt;span class="m"&gt;1&lt;/span&gt;
--rw-r--r--  &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="nb"&gt;test …&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;</summary><content type="html">&lt;h1&gt;Linux: Chmod and Chown&lt;/h1&gt;
-&lt;hr&gt;
-&lt;h2&gt;&lt;strong&gt;Chmod: Change File Mode Bits&lt;/strong&gt;&lt;/h2&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="m"&gt;15&lt;/span&gt;:45:18 user@example temporary 
+-rw-r--r--  &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="nb"&gt;test …&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</summary><content type="html">&lt;div class="section" id="linux-chmod-and-chown"&gt;
+&lt;h2&gt;Linux: Chmod and Chown&lt;/h2&gt;
+&lt;div class="section" id="chmod-change-file-mode-bits"&gt;
+&lt;h3&gt;&lt;strong&gt;Chmod: Change File Mode Bits&lt;/strong&gt;&lt;/h3&gt;
+&lt;pre class="code shell literal-block"&gt;
+&lt;span class="m"&gt;15&lt;/span&gt;:45:18 user&amp;#64;example temporary
 total 12K
 drwxr-xr-x  &lt;span class="m"&gt;2&lt;/span&gt; &lt;span class="nb"&gt;test&lt;/span&gt; users &lt;span class="m"&gt;4&lt;/span&gt;.0K Feb  &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;14&lt;/span&gt;:29 .
 drwx------ &lt;span class="m"&gt;33&lt;/span&gt; &lt;span class="nb"&gt;test&lt;/span&gt; users &lt;span class="m"&gt;4&lt;/span&gt;.0K Feb  &lt;span class="m"&gt;3&lt;/span&gt; &lt;span class="m"&gt;15&lt;/span&gt;:45 ..
 -rw-r--r--  &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="nb"&gt;test&lt;/span&gt; users    &lt;span class="m"&gt;0&lt;/span&gt; Jan &lt;span class="m"&gt;21&lt;/span&gt; &lt;span class="m"&gt;12&lt;/span&gt;:14 &lt;span class="m"&gt;1&lt;/span&gt;
 -rw-r--r--  &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="nb"&gt;test&lt;/span&gt; users    &lt;span class="m"&gt;0&lt;/span&gt; Jan &lt;span class="m"&gt;21&lt;/span&gt; &lt;span class="m"&gt;12&lt;/span&gt;:14 &lt;span class="m"&gt;3&lt;/span&gt;
 -rw-r--r--  &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="nb"&gt;test&lt;/span&gt; users   &lt;span class="m"&gt;16&lt;/span&gt; Feb  &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;14&lt;/span&gt;:29 file.txt
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;In the above example output from left to right we have:
-filemode, number of links, user, group, size, date last modified, name of file.&lt;/p&gt;
+&lt;/pre&gt;
+&lt;p&gt;In the above example output from left to right we have: filemode, number
+of links, user, group, size, date last modified, name of file.&lt;/p&gt;
 &lt;p&gt;We will focus on the filemode for now.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;drwxr-xr-x
+&lt;pre class="literal-block"&gt;
+drwxr-xr-x
 0123456789 &amp;lt;-- this is our reference marker.
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;0: is either &lt;code&gt;-&lt;/code&gt; meaning a file, or &lt;code&gt;d&lt;/code&gt; signifying that it is a directory.&lt;/p&gt;
+&lt;/pre&gt;
+&lt;p&gt;0: is either &lt;code&gt;-&lt;/code&gt; meaning a file, or &lt;code&gt;d`&lt;/code&gt; signifying that it is a
+directory.&lt;/p&gt;
 &lt;p&gt;1-3: represents the user or owner of the file.&lt;/p&gt;
 &lt;p&gt;4-6: is reference to the group that owns the file.&lt;/p&gt;
 &lt;p&gt;7-9: everybody else, or other.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Change the filemodes:&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;The command &lt;code&gt;chmod&lt;/code&gt; is used to change the modefiles of files. Its basic syntax is as follows:&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;chmod u+x file.txt&lt;/code&gt; -- The &lt;code&gt;u&lt;/code&gt; signifies &lt;code&gt;user&lt;/code&gt;, the &lt;code&gt;+&lt;/code&gt; means add and the &lt;code&gt;x&lt;/code&gt; refers to execute. This can be stacked, and used to takeaway permissions.&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;chmod -R g+rwx directory&lt;/code&gt; would recursively (&lt;code&gt;-R&lt;/code&gt;) change all &lt;code&gt;group&lt;/code&gt; files within &lt;code&gt;directory&lt;/code&gt; to read, write and execute.&lt;/p&gt;
-&lt;p&gt;Importantly, if the user or group &lt;strong&gt;does not&lt;/strong&gt; own the file or directory then the command &lt;code&gt;sudo&lt;/code&gt; must be used. Otherwise it is not needed.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Octal:&lt;/strong&gt;
- In the above examples we used &lt;code&gt;rwx&lt;/code&gt; to note what permissions we wanted to add or remove from a file. Another method is to use the &lt;em&gt;octal&lt;/em&gt; notation; numeral.&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;chmod 777 file.txt&lt;/code&gt; would mean that we are giving &lt;code&gt;rwx&lt;/code&gt; to user, group and other. How does 7 equal &lt;code&gt;rwx&lt;/code&gt;?&lt;/p&gt;
-&lt;p&gt;This is because &lt;code&gt;4&lt;/code&gt; gives read access, &lt;code&gt;2&lt;/code&gt; is write and &lt;code&gt;1&lt;/code&gt;, execute. When using octal we add the numbers together, so if we wanted read, write and execute we simply add 4,2,1 which equals 7.&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;chmod 765 xxx.txt&lt;/code&gt; would mean:
-- user: read, write and execute
-- group: read and write
-- other: read and execute&lt;/p&gt;
-&lt;p&gt;Using this is very simple, but how do I remove permissions? Previosuly, we would &lt;code&gt;chmod u-x&lt;/code&gt; i.e. we used the &lt;code&gt;-&lt;/code&gt; to signify removal of priviledge. Using octal we just set new filemode to what we want and it will add or subtract the mode accordingly. An example below:&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;chmod a+rwx&lt;/code&gt; == "give read, write and execute to all (user,group a)nd other) &lt;em&gt;or&lt;/em&gt; &lt;code&gt;777&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;But if we only wanted the user to have &lt;code&gt;rwx&lt;/code&gt; and everyone else read and write we could call: &lt;code&gt;chmod 755&lt;/code&gt;. To use non-octal here would be &lt;code&gt;chmod go-x&lt;/code&gt;. &lt;/p&gt;
-&lt;p&gt;&lt;i&gt; Important note:&lt;/i&gt; As with all things linux there are many more advanced features. We are just touching the surface here.&lt;/p&gt;
-&lt;h2&gt;&lt;strong&gt;Chown: Change File Owner and Group&lt;/strong&gt;&lt;/h2&gt;
-&lt;p&gt;The &lt;code&gt;chown&lt;/code&gt; command deals with changing the ownership of files and directories.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;drwxrwxr-x  1 test users 14.0K Jan 21 12:14 dir_1
+&lt;p&gt;The command &lt;code&gt;chmod&lt;/code&gt; is used to change the modefiles of files. Its
+basic syntax is as follows:&lt;/p&gt;
+&lt;dl class="docutils"&gt;
+&lt;dt&gt;&lt;code&gt;chmod u+x file.txt&lt;/code&gt; – The &lt;code&gt;u&lt;/code&gt; signifies &lt;code&gt;user&lt;/code&gt;, the &lt;code&gt;+&lt;/code&gt;&lt;/dt&gt;
+&lt;dd&gt;means add and the &lt;code&gt;x&lt;/code&gt; refers to execute. This can be stacked, and used to
+takeaway permissions.&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;p&gt;&lt;code&gt;chmod -R g+rwx directory&lt;/code&gt; would recursively (&lt;code&gt;-R&lt;/code&gt;) change all
+&lt;code&gt;group&lt;/code&gt; files within &lt;code&gt;directory&lt;/code&gt; to read, write and execute.&lt;/p&gt;
+&lt;p&gt;Importantly, if the user or group &lt;strong&gt;does not&lt;/strong&gt; own the file or directory
+then the command &lt;code&gt;sudo&lt;/code&gt; must be used. Otherwise it is not needed.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Octal:&lt;/strong&gt; In the above examples we used &lt;code&gt;rwx&lt;/code&gt; to note what
+permissions we wanted to add or remove from a file. Another method is to
+use the &lt;em&gt;octal&lt;/em&gt; notation; numeral.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;chmod 777 file.txt&lt;/code&gt; would mean that we are giving &lt;code&gt;rwx&lt;/code&gt; to user,
+group and other. How does 7 equal &lt;code&gt;rwx&lt;/code&gt;?&lt;/p&gt;
+&lt;p&gt;This is because &lt;code&gt;4&lt;/code&gt; gives read access, &lt;code&gt;2&lt;/code&gt; is write and &lt;code&gt;1&lt;/code&gt;,
+execute. When using octal we add the numbers together, so if we wanted
+read, write and execute we simply add 4,2,1 which equals 7.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;chmod 765 xxx.txt&lt;/code&gt; would mean: - user: read, write and execute -
+group: read and write - other: read and execute&lt;/p&gt;
+&lt;p&gt;Using this is very simple, but how do I remove permissions? Previosuly,
+we would &lt;code&gt;chmod u-x&lt;/code&gt; i.e.&amp;nbsp;we used the &lt;code&gt;-&lt;/code&gt; to signify removal of
+priviledge. Using octal we just set new filemode to what we want and it
+will add or subtract the mode accordingly. An example below:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;chmod a+rwx&lt;/code&gt; == give read, write and execute to all (user,group a)nd
+other) &lt;em&gt;or&lt;/em&gt; &lt;code&gt;777&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;But if we only wanted the user to have &lt;code&gt;rwx&lt;/code&gt; and everyone else read
+and write we could call: &lt;code&gt;chmod 755&lt;/code&gt;. To use non-octal here would be
+&lt;code&gt;chmod go-x&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Important note: As with all things linux there are many more advanced
+features. We are just touching the surface here.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="chown-change-file-owner-and-group"&gt;
+&lt;h3&gt;&lt;strong&gt;Chown: Change File Owner and Group&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;The &lt;code&gt;chown&lt;/code&gt; command deals with changing the ownership of files and
+directories.&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+drwxrwxr-x  1 test users 14.0K Jan 21 12:14 dir_1
 
 -rw-r--r--  1   admin   root   16 Feb  1 14:29 file.txt
-[filemode]     [owner] [grp]  
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;Above we have a break down of the important parts of our &lt;code&gt;ls -la&lt;/code&gt; output.&lt;/p&gt;
-&lt;p&gt;In the faked output we have &lt;code&gt;admin&lt;/code&gt; in the first positon which is representing the owner/ creator of &lt;code&gt;file.txt&lt;/code&gt;. In postition two we have the group that &lt;code&gt;file.txt&lt;/code&gt; belongs to, in this case its &lt;code&gt;root&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;The owner of a file can make changes to the filemode and ownsership of a file without super user priviledges. However, if another user wanted to change the ownership they would require this access.&lt;/p&gt;
+[filemode]     [owner] [grp]
+&lt;/pre&gt;
+&lt;p&gt;Above we have a break down of the important parts of our &lt;code&gt;ls -la&lt;/code&gt;
+output.&lt;/p&gt;
+&lt;p&gt;In the faked output we have &lt;code&gt;admin&lt;/code&gt; in the first positon which is
+representing the owner/ creator of &lt;code&gt;file.txt&lt;/code&gt;. In postition two we
+have the group that &lt;code&gt;file.txt&lt;/code&gt; belongs to, in this case its &lt;code&gt;root&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;The owner of a file can make changes to the filemode and ownsership of a
+file without super user priviledges. However, if another user wanted to
+change the ownership they would require this access.&lt;/p&gt;
 &lt;p&gt;To make a change is as simple as &lt;code&gt;chown [user]:[group] [file/s]&lt;/code&gt;.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ sudo chown root file.txt &lt;span class="c1"&gt;# 1.&lt;/span&gt;
-$ ls -l 
--rw-r--r--  &lt;span class="m"&gt;1&lt;/span&gt; root root   &lt;span class="m"&gt;16&lt;/span&gt; Feb  &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;14&lt;/span&gt;:29 file.txt
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;The simplest usage of &lt;code&gt;chown&lt;/code&gt; is the command plus the new owner and file or directory to be affected.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ sudo chown -R admin dir_1 &lt;span class="c1"&gt;# 2.&lt;/span&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo chown root file.txt # 1.
 $ ls -l
-drwxrwxr-x  &lt;span class="m"&gt;1&lt;/span&gt; admin users &lt;span class="m"&gt;14&lt;/span&gt;.0K Jan &lt;span class="m"&gt;21&lt;/span&gt; &lt;span class="m"&gt;12&lt;/span&gt;:14 dir_1
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;If we wanted to make the changes to all files and directories inside a directory we can add &lt;code&gt;-R&lt;/code&gt;. This is a recursive function with the same syntax as &lt;code&gt;chmod&lt;/code&gt;.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ sudo chown admin:admin file.txt 
+-rw-r--r--  1 root root   16 Feb  1 14:29 file.txt
+&lt;/pre&gt;
+&lt;p&gt;The simplest usage of &lt;code&gt;chown&lt;/code&gt; is the command plus the new owner and
+file or directory to be affected.&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo chown -R admin dir_1 # 2.
 $ ls -l
--rw-r--r--  &lt;span class="m"&gt;1&lt;/span&gt; admin admin   &lt;span class="m"&gt;16&lt;/span&gt; Feb  &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;14&lt;/span&gt;:29 file.txt
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;To specify a new owner and group the use of &lt;code&gt;:&lt;/code&gt; between the owner and group can be used. &lt;code&gt;admin:users&lt;/code&gt;, 'root:root` and so on.&lt;/p&gt;</content><category term="linux"></category></entry><entry><title>SSH in a nutshell</title><link href="https://danielms.site/posts/2018/Jan/ssh-in-a-nutshell/" rel="alternate"></link><published>2018-01-28T00:00:00+11:00</published><updated>2018-01-28T00:00:00+11:00</updated><author><name>Dan</name></author><id>tag:danielms.site,2018-01-28:/posts/2018/Jan/ssh-in-a-nutshell/</id><summary type="html">&lt;h1&gt;SSH&lt;/h1&gt;
-&lt;hr&gt;
-&lt;h2&gt;Definition&lt;/h2&gt;
+drwxrwxr-x  1 admin users 14.0K Jan 21 12:14 dir_1
+&lt;/pre&gt;
+&lt;p&gt;If we wanted to make the changes to all files and directories inside a
+directory we can add &lt;code&gt;-R&lt;/code&gt;. This is a recursive function with the same
+syntax as &lt;code&gt;chmod&lt;/code&gt;.&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo chown admin:admin file.txt
+$ ls -l
+-rw-r--r--  1 admin admin   16 Feb  1 14:29 file.txt
+&lt;/pre&gt;
+&lt;p&gt;To specify a new owner and group the use of &lt;code&gt;:&lt;/code&gt; between the owner and
+group can be used. &lt;code&gt;admin:users&lt;/code&gt;, ’root:root` and so on.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</content><category term="linux"></category></entry><entry><title>SSH in a nutshell</title><link href="https://danielms.site/posts/2018/Jan/ssh-in-a-nutshell/" rel="alternate"></link><published>2018-01-28T00:00:00+11:00</published><updated>2018-01-28T00:00:00+11:00</updated><author><name>Dan</name></author><id>tag:danielms.site,2018-01-28:/posts/2018/Jan/ssh-in-a-nutshell/</id><summary type="html">&lt;div class="section" id="ssh"&gt;
+&lt;h2&gt;SSH&lt;/h2&gt;
+&lt;div class="section" id="definition"&gt;
+&lt;h3&gt;Definition&lt;/h3&gt;
 &lt;p&gt;Straight from the man pages:&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;ssh (SSH client) is a program for logging into a remote machine and for executing commands on a
-remote machine.  It is intended to provide secure encrypted communications between two untrusted
-hosts over an insecure network.  X11 connections, arbitrary TCP ports and UNIX-domain …&lt;/em&gt;&lt;/p&gt;</summary><content type="html">&lt;h1&gt;SSH&lt;/h1&gt;
-&lt;hr&gt;
-&lt;h2&gt;Definition&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;ssh (SSH client) is a program for logging into a remote machine and for
+executing commands on a remote machine. It is intended to provide secure
+encrypted communications between two untrusted hosts over an insecure
+network. X11 connections, arbitrary TCP ports and UNIX-domain …&lt;/em&gt;&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;</summary><content type="html">&lt;div class="section" id="ssh"&gt;
+&lt;h2&gt;SSH&lt;/h2&gt;
+&lt;div class="section" id="definition"&gt;
+&lt;h3&gt;Definition&lt;/h3&gt;
 &lt;p&gt;Straight from the man pages:&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;ssh (SSH client) is a program for logging into a remote machine and for executing commands on a
-remote machine.  It is intended to provide secure encrypted communications between two untrusted
-hosts over an insecure network.  X11 connections, arbitrary TCP ports and UNIX-domain sockets can
-also be forwarded over the secure channel.&lt;/em&gt;&lt;/p&gt;
-&lt;h3&gt;Setup (Old School Method)&lt;/h3&gt;
-&lt;p&gt;On a new machine we need to setup up ssh. This includes installation if its not installed by default (i.e. Arch Linux). It also includes the creation of our private and public keys (maybe write a post about the basics of pgp).&lt;/p&gt;
-&lt;p&gt;To create a new key we use &lt;code&gt;ssh-keygen&lt;/code&gt;. Taken straight from the man pages:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;ssh-keygen&lt;/strong&gt; generates, manages and converts authentication keys for ssh. It can create keys for use by SSH protocols versions one and two. Protocol one is depreciated and should not be used.&lt;/li&gt;
+&lt;p&gt;&lt;em&gt;ssh (SSH client) is a program for logging into a remote machine and for
+executing commands on a remote machine. It is intended to provide secure
+encrypted communications between two untrusted hosts over an insecure
+network. X11 connections, arbitrary TCP ports and UNIX-domain sockets
+can also be forwarded over the secure channel.&lt;/em&gt;&lt;/p&gt;
+&lt;div class="section" id="setup-old-school-method"&gt;
+&lt;h4&gt;Setup (Old School Method)&lt;/h4&gt;
+&lt;p&gt;On a new machine we need to setup up ssh. This includes installation if
+its not installed by default (i.e.&amp;nbsp;Arch Linux). It also includes the
+creation of our private and public keys (maybe write a post about the
+basics of pgp).&lt;/p&gt;
+&lt;p&gt;To create a new key we use &lt;code&gt;ssh-keygen&lt;/code&gt;. Taken straight from the man
+pages:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;strong&gt;ssh-keygen&lt;/strong&gt; generates, manages and converts authentication keys
+for ssh. It can create keys for use by SSH protocols versions one and
+two. Protocol one is depreciated and should not be used.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;When creating a key we need to specify the type. To do this we use the &lt;code&gt;-t&lt;/code&gt; flag followed by one of the following specifications: &lt;/p&gt;
-&lt;ul&gt;
+&lt;p&gt;When creating a key we need to specify the type. To do this we use the
+&lt;code&gt;-t&lt;/code&gt; flag followed by one of the following specifications:&lt;/p&gt;
+&lt;ul class="simple"&gt;
 &lt;li&gt;RSA, DSA, ECDSA, ED25519&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;If no flag is present it will default to RSA which is what we want. &lt;/p&gt;
-&lt;p&gt;Also important is the number of bits in the key to generate. By default it will generate a key length of 2048 bits. In this article we will not discuss non-RSA configurations which require different lengths (refer to the man pages for more info). Generally it is recommended to use 4096 bits of entropy, to do that we use the &lt;code&gt;-b&lt;/code&gt; followed by the number, in this case 4096.&lt;/p&gt;
+&lt;p&gt;If no flag is present it will default to RSA which is what we want.&lt;/p&gt;
+&lt;p&gt;Also important is the number of bits in the key to generate. By default
+it will generate a key length of 2048 bits. In this article we will not
+discuss non-RSA configurations which require different lengths (refer to
+the man pages for more info). Generally it is recommended to use 4096
+bits of entropy, to do that we use the &lt;code&gt;-b&lt;/code&gt; followed by the number, in
+this case 4096.&lt;/p&gt;
 &lt;p&gt;Running &lt;code&gt;ssh-keygen -t rsa -b 4096&lt;/code&gt; will create the ssh key.&lt;/p&gt;
-&lt;p&gt;&lt;img alt=" " src="https://danielms.site/posts/2018/Jan/ssh-in-a-nutshell/images/sshcmdline.png"&gt;
-Output will look something akin to this.&lt;/p&gt;
-&lt;p&gt;It will ask for a password, this is up to the user but it does not limit your ability to login without entering password as we discuss below. It does however, offer protection should your device be stolen or compromised. The password can be bruteforced but it will give you time to manually for to your administered servers and delete the public key that matches the now stolen private key. &lt;/p&gt;
-&lt;h3&gt;Key Based Authentication&lt;/h3&gt;
-&lt;p&gt;Key based authentication allows seamless interaction between disparate hosts over the network. Generally, to ssh into a remote server the client will need to enter the servers password. Using ssh keys (unless they too are configured with a password) negates this.&lt;/p&gt;
-&lt;p&gt;Below we see how to transfer the clients public key to the remote server.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;scp ~/.ssh/id_rsa.pub user@remote.server.org:/home/user/.ssh/clients_public_key.pub
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;&lt;code&gt;scp&lt;/code&gt; is the Secure Copy program. It uses ssh for the data transfer and provides the same security. The basic syntax is to call &lt;code&gt;scp&lt;/code&gt; then append the file to be copied, followed by the destination to send it to. The destination is punctuated by a colon &lt;code&gt;:&lt;/code&gt; coupled with the location on the remote server in which the file should be saved to (as seen above).&lt;/p&gt;
-&lt;p&gt;Next we need to authorize the key we have sent to the remote server. If we do not authorize it, it will not allow us to login using the key, i.e. we will be prompted for a password each time. To do that we can input the following:&lt;/p&gt;
+&lt;div class="figure"&gt;
+&lt;img alt="SSH commandline" src="https://danielms.site/images/sshcmdline.png" /&gt;
+&lt;/div&gt;
+&lt;p&gt;It will ask for a password, this is up to the user but it does not limit
+your ability to login without entering password as we discuss below. It
+does however, offer protection should your device be stolen or
+compromised. The password can be bruteforced but it will give you time
+to manually for to your administered servers and delete the public key
+that matches the now stolen private key.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="key-based-authentication"&gt;
+&lt;h4&gt;Key Based Authentication&lt;/h4&gt;
+&lt;p&gt;Key based authentication allows seamless interaction between disparate
+hosts over the network. Generally, to ssh into a remote server the
+client will need to enter the servers password. Using ssh keys (unless
+they too are configured with a password) negates this.&lt;/p&gt;
+&lt;p&gt;Below we see how to transfer the clients public key to the remote
+server.&lt;/p&gt;
+&lt;pre class="code bash literal-block"&gt;
+scp ~/.ssh/id_rsa.pub user&amp;#64;remote.server.org:/home/user/.ssh/clients_public_key.pub
+&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;scp&lt;/code&gt; is the Secure Copy program. It uses ssh for the data transfer
+and provides the same security. The basic syntax is to call &lt;code&gt;scp&lt;/code&gt; then
+append the file to be copied, followed by the destination to send it to.
+The destination is punctuated by a colon &lt;code&gt;:&lt;/code&gt; coupled with the location
+on the remote server in which the file should be saved to (as seen
+above).&lt;/p&gt;
+&lt;p&gt;Next we need to authorize the key we have sent to the remote server. If
+we do not authorize it, it will not allow us to login using the key,
+i.e.&amp;nbsp;we will be prompted for a password each time. To do that we can
+input the following:&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;cat ~/.ssh/name_of_new_key.pub &amp;gt;&amp;gt; ~/.ssh/authorized_keys&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;Firstly, in linux we do not need to append a file name at the end so this works as expected. And secondly, the &lt;code&gt;&amp;gt;&amp;gt;&lt;/code&gt; will create the file for us if it does not already exist.&lt;/p&gt;
-&lt;p&gt;Finally, it is important to set permissions on the new directory and its keys. Permissions is another topic, but we want the following:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;chmod 700 /home/user
+&lt;p&gt;Firstly, in linux we do not need to append a file name at the end so
+this works as expected. And secondly, the &lt;code&gt;&amp;gt;&amp;gt;&lt;/code&gt; will create the file
+for us if it does not already exist.&lt;/p&gt;
+&lt;p&gt;Finally, it is important to set permissions on the new directory and its
+keys. Permissions is another topic, but we want the following:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+chmod 700 /home/user
 chmod 700 /home/user/.ssh
 chmod 600 /home/user/.ssh/authorized_keys
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;We want our &lt;code&gt;/home&lt;/code&gt; and &lt;code&gt;/home/.ssh&lt;/code&gt; to have read, write and execute only by the user and &lt;code&gt;../authorized_keys&lt;/code&gt; only read and writable by the user. This is on the remote server. We can also now delete the public key from within &lt;code&gt;~/.ssh/&lt;/code&gt; as it is saved to the authorized keys although this is optional.&lt;/p&gt;
-&lt;h3&gt;Setup V2 (New School)&lt;/h3&gt;
-&lt;p&gt;After explaining the old way or more traditional (sometimes better) way we turn to &lt;code&gt;ssh-copy-id&lt;/code&gt;.&lt;/p&gt;
+&lt;/pre&gt;
+&lt;p&gt;We want our &lt;code&gt;/home&lt;/code&gt; and &lt;code&gt;/home/.ssh&lt;/code&gt; to have read, write and execute
+only by the user and &lt;code&gt;../authorized_keys&lt;/code&gt; only read and writable by
+the user. This is on the remote server. We can also now delete the
+public key from within &lt;code&gt;~/.ssh/&lt;/code&gt; as it is saved to the authorized keys
+although this is optional.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="setup-v2-new-school"&gt;
+&lt;h4&gt;Setup V2 (New School)&lt;/h4&gt;
+&lt;p&gt;After explaining the old way or more traditional (sometimes better) way
+we turn to &lt;code&gt;ssh-copy-id&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;To do all of that in one command we can just enter:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ssh-copy-id user@remote_server
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;And, it will do everything in about 2 seconds (after you authenticate with the remotes password). To test it without committing anything use the &lt;code&gt;-n&lt;/code&gt; flag (dry run). It is important to know what is happening in the background though, so do the old school method to get a better feel for linux -- if you are old hat, just use this.&lt;/p&gt;
-&lt;h3&gt;Further Security Measures&lt;/h3&gt;
+&lt;pre class="code bash literal-block"&gt;
+ssh-copy-id user&amp;#64;remote_server
+&lt;/pre&gt;
+&lt;p&gt;And, it will do everything in about 2 seconds (after you authenticate
+with the remotes password). To test it without committing anything use
+the &lt;code&gt;-n&lt;/code&gt; flag (dry run). It is important to know what is happening in
+the background though, so do the old school method to get a better feel
+for linux – if you are old hat, just use this.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="further-security-measures"&gt;
+&lt;h4&gt;Further Security Measures&lt;/h4&gt;
 &lt;p&gt;&lt;strong&gt;Disable Password Authentication&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;After we have setup key based authentication on the remote server we may want to close off all non-key authenticated access via ssh. This means that only those with authorized keys will be able to access the server. In a home network this may be overkill (dependent on the situation or security posture/threat model you need, or face) but if you are using ssh to administer a VPS this should be the minimum standard.&lt;/p&gt;
-&lt;p&gt;To do this we need to edit our &lt;code&gt;/etc/ssh/sshd_config&lt;/code&gt; &lt;strong&gt;back it up first!&lt;/strong&gt;.&lt;/p&gt;
-&lt;p&gt;To do this we just change &lt;code&gt;PasswordAuthentication&lt;/code&gt; to &lt;code&gt;no&lt;/code&gt; inside the file. After the change we need to restart the ssh daemon to make the change immediate.&lt;/p&gt;
+&lt;p&gt;After we have setup key based authentication on the remote server we may
+want to close off all non-key authenticated access via ssh. This means
+that only those with authorized keys will be able to access the server.
+In a home network this may be overkill (dependent on the situation or
+security posture/threat model you need, or face) but if you are using
+ssh to administer a VPS this should be the minimum standard.&lt;/p&gt;
+&lt;p&gt;To do this we need to edit our &lt;code&gt;/etc/ssh/sshd_config&lt;/code&gt; &lt;strong&gt;back it up
+first!&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;To do this we just change &lt;code&gt;PasswordAuthentication&lt;/code&gt; to &lt;code&gt;no&lt;/code&gt; inside
+the file. After the change we need to restart the ssh daemon to make the
+change immediate.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Change SSH Default Port&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;Many of the automated botnets automatically search the web looking for open ports, and exploiting them by entering common default credentials. Whilst changing the ssh port from 22 to something else is security by obscurity it does enough to make elevate you above the 'low hanging fruit' category.&lt;/p&gt;
+&lt;p&gt;Many of the automated botnets automatically search the web looking for
+open ports, and exploiting them by entering common default credentials.
+Whilst changing the ssh port from 22 to something else is security by
+obscurity it does enough to make elevate you above the ‘low hanging
+fruit’ category.&lt;/p&gt;
 &lt;p&gt;To alter the default port the &lt;code&gt;sshd_config&lt;/code&gt; needs to be edited.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;#Port 22 &amp;lt;---- Uncomment this and change port
+&lt;pre class="literal-block"&gt;
+#Port 22 &amp;lt;---- Uncomment this and change port
 #AddressFamily any
 #ListenAddress 0.0.0.0
 #ListenAddress ::
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;You need to be root to do this. And the ssh daemon must be restarted. &lt;code&gt;systemctl restart sshd.service&lt;/code&gt; on systemd.&lt;/p&gt;
+&lt;/pre&gt;
+&lt;p&gt;You need to be root to do this. And the ssh daemon must be restarted.
+&lt;code&gt;systemctl restart sshd.service&lt;/code&gt; on systemd.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Auto Deny/Fail2Ban&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;To access a host via ssh it needs to be open over the network. This is adds risk and creates an attack vector. &lt;em&gt;fail2ban&lt;/em&gt; is a service that attempts to mitigate this by altering your firewalls configuration after a set number of unsuccessful login attempts.&lt;/p&gt;
+&lt;p&gt;To access a host via ssh it needs to be open over the network. This is
+adds risk and creates an attack vector. &lt;em&gt;fail2ban&lt;/em&gt; is a service that
+attempts to mitigate this by altering your firewalls configuration after
+a set number of unsuccessful login attempts.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Port Knocking&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;A method to surreptitiously open the port to ssh. By making connection attempts ("knocking") on ports in a predefined manner the firewall allows access to ssh. Again, this is security through obscurity but coupled with several strategies does help to harden the system. Nmap can ascertain if a host has port knocking enabled. &lt;/p&gt;</content><category term="ssh"></category></entry><entry><title>Rsync cheatsheet</title><link href="https://danielms.site/posts/2018/Jan/rsync-cheatsheet/" rel="alternate"></link><published>2018-01-24T00:00:00+11:00</published><updated>2018-01-24T00:00:00+11:00</updated><author><name>Dan</name></author><id>tag:danielms.site,2018-01-24:/posts/2018/Jan/rsync-cheatsheet/</id><summary type="html">&lt;h2&gt;Rsync&lt;/h2&gt;
-&lt;p&gt;This is a short primer on the most simple of rsync's capabilities.&lt;/p&gt;
-&lt;p&gt;Rsync is a fast and extraordinarily versatile file copying tool. It uses a delta transfer algorithm, which reduces the amount of data sent over the network by sending only the differences between the source and destination files …&lt;/p&gt;</summary><content type="html">&lt;h2&gt;Rsync&lt;/h2&gt;
-&lt;p&gt;This is a short primer on the most simple of rsync's capabilities.&lt;/p&gt;
-&lt;p&gt;Rsync is a fast and extraordinarily versatile file copying tool. It uses a delta transfer algorithm, which reduces the amount of data sent over the network by sending only the differences between the source and destination files. It can contact remote systems via SSH or through a rsync daemon over TCP.&lt;/p&gt;
+&lt;p&gt;A method to surreptitiously open the port to ssh. By making connection
+attempts (“knocking”) on ports in a predefined manner the firewall
+allows access to ssh. Again, this is security through obscurity but
+coupled with several strategies does help to harden the system. Nmap can
+ascertain if a host has port knocking enabled.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</content><category term="ssh"></category></entry><entry><title>Rysnc cheatsheet</title><link href="https://danielms.site/posts/2018/Jan/rysnc-cheatsheet/" rel="alternate"></link><published>2018-01-24T00:00:00+11:00</published><updated>2018-01-24T00:00:00+11:00</updated><author><name>Dan</name></author><id>tag:danielms.site,2018-01-24:/posts/2018/Jan/rysnc-cheatsheet/</id><summary type="html">&lt;div class="section" id="rsync"&gt;
+&lt;h2&gt;Rsync&lt;/h2&gt;
+&lt;p&gt;This is a short primer on the most simple of rsync’s capabilities.&lt;/p&gt;
+&lt;p&gt;Rsync is a fast and extraordinarily versatile file copying tool. It uses
+a delta transfer algorithm, which reduces the amount of data sent over
+the network by sending only the differences between the source and
+destination …&lt;/p&gt;&lt;/div&gt;</summary><content type="html">&lt;div class="section" id="rsync"&gt;
+&lt;h2&gt;Rsync&lt;/h2&gt;
+&lt;p&gt;This is a short primer on the most simple of rsync’s capabilities.&lt;/p&gt;
+&lt;p&gt;Rsync is a fast and extraordinarily versatile file copying tool. It uses
+a delta transfer algorithm, which reduces the amount of data sent over
+the network by sending only the differences between the source and
+destination files. It can contact remote systems via SSH or through a
+rsync daemon over TCP.&lt;/p&gt;
+&lt;div class="section" id="basic-syntax"&gt;
 &lt;h3&gt;Basic Syntax&lt;/h3&gt;
-&lt;p&gt;&lt;code&gt;-r&lt;/code&gt;: The 'r' flag denotes that the operation is recursive. It will copy across all files and folders inside the source directory.
-However, if the source destination does not have a trailing slash it will copy the folder, rather than the files inside the folder.&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;-a&lt;/code&gt;: Archive mode is superior to recursive mode as it will sustain symbolic links, special and device files, modification times, group, owner and permissions.&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;--dry-run&lt;/code&gt; or &lt;code&gt;-n&lt;/code&gt;: As a sanity check it is worth checking that your command is going to do what you &lt;em&gt;think&lt;/em&gt; it is going to do. The dry run will not execute the command. It can (read: should) be coupled with the next command.&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;-v&lt;/code&gt;: Verbose will print out the what actions were undertaken by the command. If &lt;code&gt;-n&lt;/code&gt; is not coupled with a verbose flag it will print nothing to the screen.&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;--delete&lt;/code&gt;: Will remove extra items in the destination folder that do not exist in the source directory. &lt;strong&gt;Caution:&lt;/strong&gt; This can lead to complete deletion of the destination folder if incorrectly implemented.&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;-z&lt;/code&gt;: When transferring across the network rsync provides a compression option to save on bandwidth.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;-r&lt;/code&gt;: The ‘r’ flag denotes that the operation is recursive. It will
+copy across all files and folders inside the source directory. However,
+if the source destination does not have a trailing slash it will copy
+the folder, rather than the files inside the folder.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;-a&lt;/code&gt;: Archive mode is superior to recursive mode as it will sustain
+symbolic links, special and device files, modification times, group,
+owner and permissions.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;--dry-run&lt;/code&gt; or &lt;code&gt;-n&lt;/code&gt;: As a sanity check it is worth checking that
+your command is going to do what you &lt;em&gt;think&lt;/em&gt; it is going to do. The dry
+run will not execute the command. It can (read: should) be coupled with
+the next command.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;-v&lt;/code&gt;: Verbose will print out the what actions were undertaken by the
+command. If &lt;code&gt;-n&lt;/code&gt; is not coupled with a verbose flag it will print
+nothing to the screen.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;--delete&lt;/code&gt;: Will remove extra items in the destination folder that do
+not exist in the source directory. &lt;strong&gt;Caution:&lt;/strong&gt; This can lead to
+complete deletion of the destination folder if incorrectly implemented.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;-z&lt;/code&gt;: When transferring across the network rsync provides a
+compression option to save on bandwidth.&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;-P&lt;/code&gt;: Outputs a progress bar to the terminal.&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;--exclude=important_file.txt&lt;/code&gt;: Can be used to omit files or directories from being synced.&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;--exclude=backups/ --include=backups/most_recent&lt;/code&gt;: Inside the exclusion we can explicitly include certain file, folders or patterns that fall inside the broader exclude.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;--exclude=important_file.txt&lt;/code&gt;: Can be used to omit files or
+directories from being synced.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;--exclude=backups/ --include=backups/most_recent&lt;/code&gt;: Inside the
+exclusion we can explicitly include certain file, folders or patterns
+that fall inside the broader exclude.&lt;/p&gt;
 &lt;p&gt;example:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;rsync -azvnP source_dir/ destination_dir/
-&lt;/pre&gt;&lt;/div&gt;
-
-
+&lt;pre class="literal-block"&gt;
+rsync -azvnP source_dir/ destination_dir/
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="syncing-across-remote-systems"&gt;
 &lt;h3&gt;Syncing Across Remote Systems&lt;/h3&gt;
-&lt;p&gt;Syncing can be either a "pull" or "push". &lt;/p&gt;
-&lt;p&gt;The "push":&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;rsync -a ~/local_source_dir username@remote_host:/home/username/destination_dir
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;&lt;em&gt;In this example we &lt;strong&gt;are&lt;/strong&gt; copying the directory, not just its contents so we omit the trailing slash.&lt;/em&gt;
-Here we are sending data from the source to the destination.&lt;/p&gt;
-&lt;p&gt;The "pull":&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;rsync -a username@remote_host:/home/username/destination_dir local_source_dir
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;This pull operation is syncing the remote directory with the local system. We might use this to backup a small database file for instance.&lt;/p&gt;
+&lt;p&gt;Syncing can be either a “pull” or “push”.&lt;/p&gt;
+&lt;p&gt;The “push”:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+rsync -a ~/local_source_dir username&amp;#64;remote_host:/home/username/destination_dir
+&lt;/pre&gt;
+&lt;p&gt;&lt;em&gt;In this example we **are*&lt;/em&gt; copying the directory, not just its contents
+so we omit the trailing slash.* Here we are sending data from the source
+to the destination.&lt;/p&gt;
+&lt;p&gt;The “pull”:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+rsync -a username&amp;#64;remote_host:/home/username/destination_dir local_source_dir
+&lt;/pre&gt;
+&lt;p&gt;This pull operation is syncing the remote directory with the local
+system. We might use this to backup a small database file for instance.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="ssh"&gt;
 &lt;h3&gt;SSH&lt;/h3&gt;
-&lt;p&gt;Syncing between systems if made much easier if key based authentication is enabled. If not, the user will be prompted with a password.&lt;/p&gt;</content><category term="rsync"></category></entry></feed>
+&lt;p&gt;Syncing between systems if made much easier if key based authentication
+is enabled. If not, the user will be prompted with a password.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</content><category term="rsync"></category></entry></feed>

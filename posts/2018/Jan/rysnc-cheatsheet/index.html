@@ -10,29 +10,32 @@
   <meta name="description" content="A tech blog with posts and writings on programming, systems administration, electronics and interesting topics">
   <title>
     Dan's Site
-&ndash; Rsync cheatsheet  </title>
+&ndash; Rysnc cheatsheet  </title>
 
   <link href="//fonts.googleapis.com/css?family=Open+Sans:600,800" rel="stylesheet" type="text/css">
   <link rel="shortcut icon" href="https://danielms.site/favicon.ico?v=2">
   <link href="https://danielms.site/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Dan's Site Atom" />
 
-  <link rel="stylesheet" href="https://danielms.site/theme/css/style.min.css?feffd13e">
+  <link rel="stylesheet" href="https://danielms.site/theme/css/style.min.css?6b6753a8">
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-<!-- Matomo -->
+
+  <!-- Matomo -->
 <script type="text/javascript">
   var _paq = _paq || [];
   /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+  _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
+  _paq.push(["setCookieDomain", "*.danielms.site"]);
   _paq.push(['trackPageView']);
   _paq.push(['enableLinkTracking']);
   (function() {
-    var u="//piwik.danielms.site/piwik/";
+    var u="https://piwik.danielms.site/piwik/";
     _paq.push(['setTrackerUrl', u+'piwik.php']);
     _paq.push(['setSiteId', '1']);
     var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
     g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
   })();
 </script>
-<!-- End Matomo Code -->
+<noscript><p><img src="https://piwik.danielms.site/piwik/piwik.php?idsite=1&rec=1" style="border:0;" alt="" /></p></noscript>
 
 <meta name="keywords" content="rsync">
 </head>
@@ -108,45 +111,73 @@ Follow me:
     </a>
   </p>
 
-  <h1 class="title"><a href="https://danielms.site/posts/2018/Jan/rsync-cheatsheet/">Rsync cheatsheet</a></h1>
+  <h1 class="title"><a href="https://danielms.site/posts/2018/Jan/rysnc-cheatsheet/">Rysnc cheatsheet</a></h1>
   
   <div class="article_text" id="post">
-    <h2>Rsync</h2>
-<p>This is a short primer on the most simple of rsync's capabilities.</p>
-<p>Rsync is a fast and extraordinarily versatile file copying tool. It uses a delta transfer algorithm, which reduces the amount of data sent over the network by sending only the differences between the source and destination files. It can contact remote systems via SSH or through a rsync daemon over TCP.</p>
+    <div class="section" id="rsync">
+<h2>Rsync</h2>
+<p>This is a short primer on the most simple of rsync’s capabilities.</p>
+<p>Rsync is a fast and extraordinarily versatile file copying tool. It uses
+a delta transfer algorithm, which reduces the amount of data sent over
+the network by sending only the differences between the source and
+destination files. It can contact remote systems via SSH or through a
+rsync daemon over TCP.</p>
+<div class="section" id="basic-syntax">
 <h3>Basic Syntax</h3>
-<p><code>-r</code>: The 'r' flag denotes that the operation is recursive. It will copy across all files and folders inside the source directory.
-However, if the source destination does not have a trailing slash it will copy the folder, rather than the files inside the folder.</p>
-<p><code>-a</code>: Archive mode is superior to recursive mode as it will sustain symbolic links, special and device files, modification times, group, owner and permissions.</p>
-<p><code>--dry-run</code> or <code>-n</code>: As a sanity check it is worth checking that your command is going to do what you <em>think</em> it is going to do. The dry run will not execute the command. It can (read: should) be coupled with the next command.</p>
-<p><code>-v</code>: Verbose will print out the what actions were undertaken by the command. If <code>-n</code> is not coupled with a verbose flag it will print nothing to the screen.</p>
-<p><code>--delete</code>: Will remove extra items in the destination folder that do not exist in the source directory. <strong>Caution:</strong> This can lead to complete deletion of the destination folder if incorrectly implemented.</p>
-<p><code>-z</code>: When transferring across the network rsync provides a compression option to save on bandwidth.</p>
+<p><code>-r</code>: The ‘r’ flag denotes that the operation is recursive. It will
+copy across all files and folders inside the source directory. However,
+if the source destination does not have a trailing slash it will copy
+the folder, rather than the files inside the folder.</p>
+<p><code>-a</code>: Archive mode is superior to recursive mode as it will sustain
+symbolic links, special and device files, modification times, group,
+owner and permissions.</p>
+<p><code>--dry-run</code> or <code>-n</code>: As a sanity check it is worth checking that
+your command is going to do what you <em>think</em> it is going to do. The dry
+run will not execute the command. It can (read: should) be coupled with
+the next command.</p>
+<p><code>-v</code>: Verbose will print out the what actions were undertaken by the
+command. If <code>-n</code> is not coupled with a verbose flag it will print
+nothing to the screen.</p>
+<p><code>--delete</code>: Will remove extra items in the destination folder that do
+not exist in the source directory. <strong>Caution:</strong> This can lead to
+complete deletion of the destination folder if incorrectly implemented.</p>
+<p><code>-z</code>: When transferring across the network rsync provides a
+compression option to save on bandwidth.</p>
 <p><code>-P</code>: Outputs a progress bar to the terminal.</p>
-<p><code>--exclude=important_file.txt</code>: Can be used to omit files or directories from being synced.</p>
-<p><code>--exclude=backups/ --include=backups/most_recent</code>: Inside the exclusion we can explicitly include certain file, folders or patterns that fall inside the broader exclude.</p>
+<p><code>--exclude=important_file.txt</code>: Can be used to omit files or
+directories from being synced.</p>
+<p><code>--exclude=backups/ --include=backups/most_recent</code>: Inside the
+exclusion we can explicitly include certain file, folders or patterns
+that fall inside the broader exclude.</p>
 <p>example:</p>
-<div class="highlight"><pre><span></span>rsync -azvnP source_dir/ destination_dir/
-</pre></div>
-
-
+<pre class="literal-block">
+rsync -azvnP source_dir/ destination_dir/
+</pre>
+</div>
+<div class="section" id="syncing-across-remote-systems">
 <h3>Syncing Across Remote Systems</h3>
-<p>Syncing can be either a "pull" or "push". </p>
-<p>The "push":</p>
-<div class="highlight"><pre><span></span>rsync -a ~/local_source_dir username@remote_host:/home/username/destination_dir
-</pre></div>
-
-
-<p><em>In this example we <strong>are</strong> copying the directory, not just its contents so we omit the trailing slash.</em>
-Here we are sending data from the source to the destination.</p>
-<p>The "pull":</p>
-<div class="highlight"><pre><span></span>rsync -a username@remote_host:/home/username/destination_dir local_source_dir
-</pre></div>
-
-
-<p>This pull operation is syncing the remote directory with the local system. We might use this to backup a small database file for instance.</p>
+<p>Syncing can be either a “pull” or “push”.</p>
+<p>The “push”:</p>
+<pre class="literal-block">
+rsync -a ~/local_source_dir username&#64;remote_host:/home/username/destination_dir
+</pre>
+<p><em>In this example we **are*</em> copying the directory, not just its contents
+so we omit the trailing slash.* Here we are sending data from the source
+to the destination.</p>
+<p>The “pull”:</p>
+<pre class="literal-block">
+rsync -a username&#64;remote_host:/home/username/destination_dir local_source_dir
+</pre>
+<p>This pull operation is syncing the remote directory with the local
+system. We might use this to backup a small database file for instance.</p>
+</div>
+<div class="section" id="ssh">
 <h3>SSH</h3>
-<p>Syncing between systems if made much easier if key based authentication is enabled. If not, the user will be prompted with a password.</p>
+<p>Syncing between systems if made much easier if key based authentication
+is enabled. If not, the user will be prompted with a password.</p>
+</div>
+</div>
+
   </div>
 
   <div class="article_meta related">

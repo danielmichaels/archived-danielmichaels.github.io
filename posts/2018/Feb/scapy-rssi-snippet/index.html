@@ -16,23 +16,26 @@
   <link rel="shortcut icon" href="https://danielms.site/favicon.ico?v=2">
   <link href="https://danielms.site/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Dan's Site Atom" />
 
-  <link rel="stylesheet" href="https://danielms.site/theme/css/style.min.css?feffd13e">
+  <link rel="stylesheet" href="https://danielms.site/theme/css/style.min.css?6b6753a8">
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-<!-- Matomo -->
+
+  <!-- Matomo -->
 <script type="text/javascript">
   var _paq = _paq || [];
   /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+  _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
+  _paq.push(["setCookieDomain", "*.danielms.site"]);
   _paq.push(['trackPageView']);
   _paq.push(['enableLinkTracking']);
   (function() {
-    var u="//piwik.danielms.site/piwik/";
+    var u="https://piwik.danielms.site/piwik/";
     _paq.push(['setTrackerUrl', u+'piwik.php']);
     _paq.push(['setSiteId', '1']);
     var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
     g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
   })();
 </script>
-<!-- End Matomo Code -->
+<noscript><p><img src="https://piwik.danielms.site/piwik/piwik.php?idsite=1&rec=1" style="border:0;" alt="" /></p></noscript>
 
 <meta name="keywords" content="scapy, python">
 </head>
@@ -111,17 +114,21 @@ Follow me:
   <h1 class="title"><a href="https://danielms.site/posts/2018/Feb/scapy-rssi-snippet/">Scapy rssi snippet</a></h1>
   
   <div class="article_text" id="post">
-    <h1>Scapy Snippets</h1>
-<h2>How to get RSSI from WLAN packet</h2>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scapy.layers.dot11</span> <span class="kn">import</span> <span class="n">RadioTap</span><span class="p">,</span> <span class="n">Dot11</span>
+    <div class="section" id="scapy-snippets">
+<h2>Scapy Snippets</h2>
+<div class="section" id="how-to-get-rssi-from-wlan-packet">
+<h3>How to get RSSI from WLAN packet</h3>
+<pre class="code python literal-block">
+<span class="kn">from</span> <span class="nn">scapy.layers.dot11</span> <span class="kn">import</span> <span class="n">RadioTap</span><span class="p">,</span> <span class="n">Dot11</span>
 
 <span class="k">def</span> <span class="nf">get_rssi</span><span class="p">(</span><span class="n">packet</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">packet</span><span class="o">.</span><span class="n">haslayer</span><span class="p">(</span><span class="n">RadioTap</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">packet</span><span class="o">.</span><span class="n">dbm_antsignal</span>
-</pre></div>
-
-
+</pre>
 <p><strong>caveat: currently only tested on Ralink: RT5370 chipset</strong></p>
+</div>
+</div>
+
   </div>
 
   <div class="article_meta related">

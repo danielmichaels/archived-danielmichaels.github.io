@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html lang="en"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Dan">
+  <meta name="description" content="A tech blog with posts and writings on programming, systems administration, electronics and interesting topics">
+  <title>
+    Dan's Site
+&ndash; Flask, forms and http requests  </title>
+
+  <link href="//fonts.googleapis.com/css?family=Open+Sans:600,800" rel="stylesheet" type="text/css">
+  <link rel="shortcut icon" href="https://danielms.site/favicon.ico?v=2">
+  <link href="https://danielms.site/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Dan's Site Atom" />
+
+  <link rel="stylesheet" href="https://danielms.site/theme/css/style.min.css?6b6753a8">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+  <!-- Matomo -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+  _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
+  _paq.push(["setCookieDomain", "*.danielms.site"]);
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="https://piwik.danielms.site/piwik/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="https://piwik.danielms.site/piwik/piwik.php?idsite=1&rec=1" style="border:0;" alt="" /></p></noscript>
+
+<meta name="keywords" content="python, flask">
+</head>
+<body>
+  <div class="container">
+    <div class="four columns sidebar">
+<nav>
+  <h1>Hi.</h1>
+  <a href="https://danielms.site/">
+    <img src="https://danielms.site/cover.jpeg" id="gravatar" alt="My photo"/>
+  </a>
+  <h2><a href="https://danielms.site/">I'm Dan</a></h2>
+
+  <div id="bio">
+    <p>Technocrat, Aspiring Developer, Thinker, Practitioner of Shosin.</p>
+  </div>
+
+  <div id="social">
+Follow me:
+<div id="stalker">
+
+
+  <a title="danielmichaels on Github" href="https://github.com/danielmichaels">
+    <i class="fa fa-github"></i>
+  </a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<a title="Atom feed" href="https://danielms.site/feeds/all.atom.xml">
+  <i class="fa fa-rss"></i>
+</a>
+</div>  </div>
+
+  <div id="tags">
+    <ul>
+      <li><a href="#" target="_blank">About Me<span style="font-size: 0.7em">&#8599;</span> </a></li>
+      <li><a href="#" target="_blank">Projects<span style="font-size: 0.7em">&#8599;</span> </a></li>
+      <li><a href="http://python.org/" target="_blank">Python.org<span style="font-size: 0.7em">&#8599;</span> </a></li>
+      <li><a href="http://jinja.pocoo.org/" target="_blank">Jinja2<span style="font-size: 0.7em">&#8599;</span> </a></li>
+      </ul>
+  </div>
+</nav>    </div>
+
+    <div class="eleven columns content">
+  <p class="meta">
+    23 April 2018
+    <a href="/">
+      <i class="home fa fa-home"></i>
+    </a>
+  </p>
+
+  <h1 class="title"><a href="https://danielms.site/posts/2018/Apr/flask-forms-and-http-requests/">Flask, forms and http requests</a></h1>
+  
+  <div class="article_text" id="post">
+    <div class="section" id="id1">
+<h2>Flask, Forms and HTTP Requests</h2>
+<div class="section" id="preface">
+<h3>Preface</h3>
+<p>This week I have been building a small webapp that leverage’s an
+external API to populate values in the user pages. And it pains me to
+say that I spent a silly length of time debugging what was a rather easy
+problem.</p>
+<p>The webapp uses Flask, jinja2 templates and the
+<a class="reference external" href="https://github.com/danielmichaels/fuelwatcher">fuelwatcher</a> API. The
+issue started when trying to institute a search bar that allows the user
+to select a series of parameters.</p>
+<p>In the end the following issues were present:</p>
+<ul class="simple">
+<li>My lack of understanding in regards to HTTP requests</li>
+<li>Not knowing how the Flask Request context functions</li>
+<li>Improper formatting of my HTML forms</li>
+</ul>
+</div>
+<div class="section" id="learn-you-some-http-for-great-good">
+<h3>Learn You Some HTTP For Great Good</h3>
+<p>Foolishly, I thought I understood HTTP requests. Sometimes you need to
+use your theoretical knowledge practically to fully grasp a concept. It
+turns out I was mixing <code>GET</code> and <code>POST</code> when submitting data to the
+server in conjunction with using HTML form attributes incorrectly.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="5%" />
+<col width="52%" />
+<col width="42%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">&nbsp;</th>
+<th class="head">GET</th>
+<th class="head">POST</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><ol class="first last arabic simple">
+<li></li>
+</ol>
+</td>
+<td>Sends Parameters in URL</td>
+<td>Sends Parameters in body</td>
+</tr>
+<tr><td><ol class="first last arabic simple" start="2">
+<li></li>
+</ol>
+</td>
+<td>Used for fetching documents</td>
+<td>Used for updating data</td>
+</tr>
+<tr><td><ol class="first last arabic simple" start="3">
+<li></li>
+</ol>
+</td>
+<td>Has max length URL limitations</td>
+<td>No max length (theoretically)</td>
+</tr>
+<tr><td><ol class="first last arabic simple" start="4">
+<li></li>
+</ol>
+</td>
+<td>Often Cached</td>
+<td>Server does not cache</td>
+</tr>
+<tr><td><ol class="first last arabic simple" start="5">
+<li></li>
+</ol>
+</td>
+<td>Idempotent</td>
+<td>Not idempotent</td>
+</tr>
+<tr><td><ol class="first last arabic simple" start="6">
+<li></li>
+</ol>
+</td>
+<td>Should not change server data</td>
+<td>Can change server data</td>
+</tr>
+</tbody>
+</table>
+<hr class="docutils" />
+<p>A key point for said webapp is item number 1; I was sending parameters
+in the URL when they really needed to be sent via the body. Expanding on
+this a little, in a <code>GET</code> request the parameters are transmitted using
+URI schema friendly syntax (see wiki
+<a class="reference external" href="https://en.wikipedia.org/wiki/Uniform_Resource_Identifier">here</a>).
+It is common to see query delimiters in the URL such as <code>&amp;`</code>, <code>=</code>,
+<code>+</code> and <code>#</code> and should of been a clue in the debugging process.
+Transmitting a <code>GET</code> request like this fetches data from another
+resource, where in contrast my data was needed to execute a function
+within the server application to pull information from a third party.</p>
+</div>
+<div class="section" id="flask-requests">
+<h3>Flask Requests</h3>
+<p>This is deep subject but is tightly coupled to the previous point. The
+request object in flask gives access to the global <em>request</em> object.
+Meaning it parses the incoming request data for you. This is important
+because it is checking for a <code>method</code> attribute within that request.
+Depending on which <code>method</code> is sent will affect how it/ you should
+check for the request object.</p>
+<p><strong>TL;DR:</strong> If you incorrectly set the method to <code>GET</code> when its
+actually a <code>POST</code> you will have problems.</p>
+<p>To receive the request object and parse for the data you want the
+following should be used:</p>
+<div class="highlight"><pre><span></span><span class="c1"># displaying both POST and GET for clarity</span>
+
+<span class="c1"># POST request // Use &#39;form&#39;</span>
+<span class="nd">@app.route</span><span class="p">(</span><span class="s2">&quot;/test&quot;</span> <span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;POST&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">test</span><span class="p">():</span>
+    <span class="n">select</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;attribute to be parsed&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">select</span> <span class="c1"># or render_template with select=select etc</span>
+
+<span class="c1"># GET request // Use &#39;args&#39;</span>
+<span class="nd">@app.route</span><span class="p">(</span><span class="s1">&#39;/data&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">data</span><span class="p">():</span>
+    <span class="c1"># here we want to get the value of user (i.e. ?user=some-value)</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;user&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">user</span><span class="p">)</span> <span class="c1"># or how ever you want to use that data</span>
+</pre></div>
+<p>Given these snippets you can see how mixing <code>GET</code> with <code>POST</code> will
+lead to calling the wrong request method.</p>
+</div>
+<div class="section" id="html-form-tags-for-dummies">
+<h3>HTML form tags for Dummies</h3>
+<p>HTML, basic right? Don’t let hubris fool you, not learning HTML deeply
+is foolish. To be fair, this is the first app I have created that has
+not required the use of <code>flask-wtf</code>, which kindly generates forms and
+their tags for you.</p>
+<div class="highlight"><pre><span></span><span class="c">&lt;!-- standard form tags --&gt;</span>
+<span class="p">&lt;</span><span class="nt">form</span> <span class="na">action</span><span class="o">=</span><span class="s">&quot;{{ url_for(&#39;app.function&#39;)}}&quot;</span> <span class="na">method</span><span class="o">=</span><span class="s">&quot;post&quot;</span><span class="p">&gt;</span>
+</pre></div>
+<p>Simple, right? Not if you:</p>
+<ul class="simple">
+<li>Mix up the HTTP request</li>
+<li>Use the wrong flask request method</li>
+<li>Don’t use an attribute which you can parse in using
+<code>request.form.get('attribute')</code></li>
+</ul>
+<p>Tightly coupled (I think there is a SOLID principle about this…) and
+frustrating when you don’t connect the dots.</p>
+<p>The last piece of the puzzle was the simplest of all, I had not set an
+attribute that the request object could get. In this example a
+<code>&lt;select&gt;</code> tag was used and simply appending
+<code>name=attribute_to_be_parsed</code> worked.</p>
+<p>For clarity, first the html.</p>
+<div class="highlight"><pre><span></span><span class="c">&lt;!-- html --&gt;</span>
+<span class="p">&lt;</span><span class="nt">select</span> <span class="na">name</span><span class="o">=</span><span class="s">&#39;item1&#39;</span><span class="p">&gt;</span>                   <span class="p">&lt;</span><span class="nt">--</span> <span class="na">attribute</span> <span class="na">flask</span> <span class="na">looks</span> <span class="na">for</span>
+    <span class="err">{%</span> <span class="na">for</span> <span class="na">item</span> <span class="na">in</span> <span class="na">items</span> <span class="err">%}</span>
+        <span class="err">&lt;</span><span class="na">option</span><span class="p">&gt;</span>
+            {{ item }}                  <span class="p">&lt;</span><span class="nt">--</span> <span class="na">what</span> <span class="na">we</span> <span class="na">get</span> <span class="na">in</span> <span class="na">the</span> <span class="na">response</span>
+        <span class="err">&lt;/</span><span class="na">option</span><span class="p">&gt;</span>
+    {% endfor}
+<span class="p">&lt;/</span><span class="nt">select</span><span class="p">&gt;</span>
+</pre></div>
+<p>And the flask part.</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># python: flask</span>
+<span class="nd">@app.route</span><span class="p">(</span><span class="s1">&#39;/test&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test</span><span class="p">():</span>
+    <span class="n">item_to_get</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;item1&#39;</span><span class="p">)</span>     <span class="o">&lt;--</span> <span class="n">flask</span> <span class="n">request</span> <span class="n">parsing</span> <span class="n">the</span> <span class="n">response</span> <span class="n">body</span>
+    <span class="o">...</span> <span class="n">snip</span> <span class="o">...</span>
+</pre></div>
+</td></tr></table><p>… My face when it worked.</p>
+<div class="figure">
+<img alt="Frankenstein; its alive scene" src="https://danielms.site/images/its_alive.jpg" />
+</div>
+</div>
+<div class="section" id="learn-from-your-mistakes">
+<h3>Learn from your mistakes</h3>
+<p>Everyone makes mistakes, learn from it, be humble and don’t do it again.</p>
+</div>
+</div>
+
+  </div>
+
+  <div class="article_meta related">
+    <h3>Category: </h3>
+    <span><a href="https://danielms.site/category/python-webdev.html">python, webdev</span>
+    
+    <h3>Tags:</h3>
+    <span>
+      <a href="https://danielms.site/tag/python.html">python</a>,      <a href="https://danielms.site/tag/flask.html">flask</a>    </span>
+  </div>
+
+
+
+      <div class="footer">
+<div class="disclaimer">
+  
+    <p>
+      © Dan, 2018 &mdash; built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a href="https://github.com/karambir/taman" target="_blank">Taman</a>, a port of jekyll theme <a href="https://github.com/swanson/lagom" target="_blank">Lagom</a>.
+    </p>
+  </div>      </div>
+    </div>
+  </div>
+
+</body>
+</html>

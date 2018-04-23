@@ -10,31 +10,34 @@
   <meta name="description" content="A tech blog with posts and writings on programming, systems administration, electronics and interesting topics">
   <title>
     Dan's Site
-&ndash; IO.puts "Hello Elixir"  </title>
+&ndash; Category: python, webdev  </title>
 
   <link href="//fonts.googleapis.com/css?family=Open+Sans:600,800" rel="stylesheet" type="text/css">
   <link rel="shortcut icon" href="https://danielms.site/favicon.ico?v=2">
   <link href="https://danielms.site/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Dan's Site Atom" />
 
-  <link rel="stylesheet" href="https://danielms.site/theme/css/style.min.css?feffd13e">
+  <link rel="stylesheet" href="https://danielms.site/theme/css/style.min.css?6b6753a8">
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-<!-- Matomo -->
+
+  <!-- Matomo -->
 <script type="text/javascript">
   var _paq = _paq || [];
   /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+  _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
+  _paq.push(["setCookieDomain", "*.danielms.site"]);
   _paq.push(['trackPageView']);
   _paq.push(['enableLinkTracking']);
   (function() {
-    var u="//piwik.danielms.site/piwik/";
+    var u="https://piwik.danielms.site/piwik/";
     _paq.push(['setTrackerUrl', u+'piwik.php']);
     _paq.push(['setSiteId', '1']);
     var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
     g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
   })();
 </script>
-<!-- End Matomo Code -->
+<noscript><p><img src="https://piwik.danielms.site/piwik/piwik.php?idsite=1&rec=1" style="border:0;" alt="" /></p></noscript>
 
-<meta name="keywords" content="elixir">
+<link href="https://danielms.site/feeds/python-webdev.atom.xml" type="application/atom+xml" rel="alternate" title="Dan's Site python, webdev Category Atom" />
 </head>
 <body>
   <div class="container">
@@ -101,40 +104,15 @@ Follow me:
 </nav>    </div>
 
     <div class="eleven columns content">
-  <p class="meta">
-    23 March 2018
-    <a href="/">
-      <i class="home fa fa-home"></i>
-    </a>
-  </p>
-
-  <h1 class="title"><a href="https://danielms.site/drafts/ioputs-hello-elixir.html">IO.puts "Hello Elixir"</a></h1>
-  
-  <div class="article_text" id="post">
-    <h1>Elixir</h1>
-<div class="highlight"><pre><span></span>*Elixir is a functional, concurrent, general-purpose programming language that runs on the Erlang virtual machine (BEAM). Elixir builds on top of Erlang and shares the same abstractions for building distributed, fault-tolerant applications. Elixir also provides a productive tooling and an extensible design. The latter is supported by compile-time metaprogramming with macros and polymorphism via protocols*
-</pre></div>
-
-
-<ul>
-<li><strong><em>José Valim</em> - creator of Elixir</strong></li>
-</ul>
-<h2>It's pretty neat</h2>
-<p>Elixir is pretty cool but python it is not. And that is a good thing. Sometimes it is worth exploring new things and learning something different. I have been learning more about design patterns and programming paradigms lately in an effort to round myself out. Something that comes up a lot if functional programming, or how understanding it can aid the developer in new ways of thinking about problems. </p>
-<p>Dave Thomas gives a great intro to elixir's potential, and does it more justice than I can (watch it <a href="https://player.vimeo.com/video/199860926">here</a>). To summarise it, we need to capitalise on multicore systems rather than keep trying to increase the clock speed, and thus use more energy and create more heat. We can do this through parallelism and concurrency, and elixir is a language built for this.</p>
-<p>Now I haven't played around with it enough yet to say much about its ease of use but I do think it has potential. So instead I will add a bro science case study on its performance below.</p>
-<h2>Elixir and Bleach Report</h2>
-  </div>
-
-  <div class="article_meta related">
-    <h3>Category: </h3>
-    <span><a href="https://danielms.site/category/elixir.html">elixir</span>
-    
-    <h3>Tags:</h3>
-    <span>
-      <a href="https://danielms.site/tag/elixir.html">elixir</a>    </span>
-  </div>
-
+<div id="home">
+  <h2>Blog Posts </h2>
+  <ul class="posts">
+    <li>
+      <span>23 April 2018 &raquo;</span>
+      <a href="https://danielms.site/posts/2018/Apr/flask-forms-and-http-requests/">Flask, forms and http requests</a>
+    </li>
+  </ul>
+</div>
 
 
       <div class="footer">

@@ -16,23 +16,26 @@
   <link rel="shortcut icon" href="https://danielms.site/favicon.ico?v=2">
   <link href="https://danielms.site/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Dan's Site Atom" />
 
-  <link rel="stylesheet" href="https://danielms.site/theme/css/style.min.css?feffd13e">
+  <link rel="stylesheet" href="https://danielms.site/theme/css/style.min.css?6b6753a8">
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-<!-- Matomo -->
+
+  <!-- Matomo -->
 <script type="text/javascript">
   var _paq = _paq || [];
   /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+  _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
+  _paq.push(["setCookieDomain", "*.danielms.site"]);
   _paq.push(['trackPageView']);
   _paq.push(['enableLinkTracking']);
   (function() {
-    var u="//piwik.danielms.site/piwik/";
+    var u="https://piwik.danielms.site/piwik/";
     _paq.push(['setTrackerUrl', u+'piwik.php']);
     _paq.push(['setSiteId', '1']);
     var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
     g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
   })();
 </script>
-<!-- End Matomo Code -->
+<noscript><p><img src="https://piwik.danielms.site/piwik/piwik.php?idsite=1&rec=1" style="border:0;" alt="" /></p></noscript>
 
 <link href="https://danielms.site/feeds/til.atom.xml" type="application/atom+xml" rel="alternate" title="Dan's Site TIL Category Atom" />
 </head>

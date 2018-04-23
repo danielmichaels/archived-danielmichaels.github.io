@@ -1,22 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Dan's Site - python</title><link href="https://danielms.site/" rel="alternate"></link><link href="https://danielms.site/feeds/python.atom.xml" rel="self"></link><id>https://danielms.site/</id><updated>2018-02-28T00:00:00+11:00</updated><entry><title>Scapy rssi snippet</title><link href="https://danielms.site/posts/2018/Feb/scapy-rssi-snippet/" rel="alternate"></link><published>2018-02-28T00:00:00+11:00</published><updated>2018-02-28T00:00:00+11:00</updated><author><name>Dan</name></author><id>tag:danielms.site,2018-02-28:/posts/2018/Feb/scapy-rssi-snippet/</id><summary type="html">&lt;h1&gt;Scapy Snippets&lt;/h1&gt;
-&lt;h2&gt;How to get RSSI from WLAN packet&lt;/h2&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;scapy.layers.dot11&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;RadioTap&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Dot11&lt;/span&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Dan's Site - python</title><link href="https://danielms.site/" rel="alternate"></link><link href="https://danielms.site/feeds/python.atom.xml" rel="self"></link><id>https://danielms.site/</id><updated>2018-02-28T00:00:00+11:00</updated><entry><title>Scapy rssi snippet</title><link href="https://danielms.site/posts/2018/Feb/scapy-rssi-snippet/" rel="alternate"></link><published>2018-02-28T00:00:00+11:00</published><updated>2018-02-28T00:00:00+11:00</updated><author><name>Dan</name></author><id>tag:danielms.site,2018-02-28:/posts/2018/Feb/scapy-rssi-snippet/</id><summary type="html">&lt;div class="section" id="scapy-snippets"&gt;
+&lt;h2&gt;Scapy Snippets&lt;/h2&gt;
+&lt;div class="section" id="how-to-get-rssi-from-wlan-packet"&gt;
+&lt;h3&gt;How to get RSSI from WLAN packet&lt;/h3&gt;
+&lt;pre class="code python literal-block"&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;scapy.layers.dot11&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;RadioTap&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Dot11&lt;/span&gt;
 
 &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;get_rssi&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;packet&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
     &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;packet&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;haslayer&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;RadioTap&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
         &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;packet&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;dbm_antsignal&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;&lt;strong&gt;caveat: currently only tested on Ralink: RT5370 chipset&lt;/strong&gt;&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Scapy Snippets&lt;/h1&gt;
-&lt;h2&gt;How to get RSSI from WLAN packet&lt;/h2&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;scapy.layers.dot11&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;RadioTap&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Dot11&lt;/span&gt;
+&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;caveat: currently only tested on Ralink: RT5370 chipset&lt;/strong&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</summary><content type="html">&lt;div class="section" id="scapy-snippets"&gt;
+&lt;h2&gt;Scapy Snippets&lt;/h2&gt;
+&lt;div class="section" id="how-to-get-rssi-from-wlan-packet"&gt;
+&lt;h3&gt;How to get RSSI from WLAN packet&lt;/h3&gt;
+&lt;pre class="code python literal-block"&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;scapy.layers.dot11&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;RadioTap&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Dot11&lt;/span&gt;
 
 &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;get_rssi&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;packet&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
     &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;packet&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;haslayer&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;RadioTap&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
         &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;packet&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;dbm_antsignal&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;&lt;strong&gt;caveat: currently only tested on Ralink: RT5370 chipset&lt;/strong&gt;&lt;/p&gt;</content><category term="scapy"></category><category term="python"></category></entry></feed>
+&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;caveat: currently only tested on Ralink: RT5370 chipset&lt;/strong&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</content><category term="scapy"></category><category term="python"></category></entry></feed>

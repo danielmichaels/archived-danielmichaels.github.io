@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Dan's Site - python, webdev</title><link href="https://danielms.site/" rel="alternate"></link><link href="https://danielms.site/feeds/python-webdev.atom.xml" rel="self"></link><id>https://danielms.site/</id><updated>2018-04-23T00:00:00+10:00</updated><entry><title>Flask, forms and http requests</title><link href="https://danielms.site/posts/2018/Apr/flask-forms-and-http-requests/" rel="alternate"></link><published>2018-04-23T00:00:00+10:00</published><updated>2018-04-23T00:00:00+10:00</updated><author><name>Dan</name></author><id>tag:danielms.site,2018-04-23:/posts/2018/Apr/flask-forms-and-http-requests/</id><summary type="html">&lt;div class="section" id="id1"&gt;
+&lt;h2&gt;Flask, Forms and HTTP Requests&lt;/h2&gt;
+&lt;div class="section" id="preface"&gt;
+&lt;h3&gt;Preface&lt;/h3&gt;
+&lt;p&gt;This week I have been building a small webapp that leverage’s an
+external API to populate values in the user pages. And it pains me to
+say that I spent a silly length of time debugging what was a rather easy
+problem.&lt;/p&gt;
+&lt;p&gt;The …&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;</summary><content type="html">&lt;div class="section" id="id1"&gt;
+&lt;h2&gt;Flask, Forms and HTTP Requests&lt;/h2&gt;
+&lt;div class="section" id="preface"&gt;
+&lt;h3&gt;Preface&lt;/h3&gt;
+&lt;p&gt;This week I have been building a small webapp that leverage’s an
+external API to populate values in the user pages. And it pains me to
+say that I spent a silly length of time debugging what was a rather easy
+problem.&lt;/p&gt;
+&lt;p&gt;The webapp uses Flask, jinja2 templates and the
+&lt;a class="reference external" href="https://github.com/danielmichaels/fuelwatcher"&gt;fuelwatcher&lt;/a&gt; API. The
+issue started when trying to institute a search bar that allows the user
+to select a series of parameters.&lt;/p&gt;
+&lt;p&gt;In the end the following issues were present:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;My lack of understanding in regards to HTTP requests&lt;/li&gt;
+&lt;li&gt;Not knowing how the Flask Request context functions&lt;/li&gt;
+&lt;li&gt;Improper formatting of my HTML forms&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class="section" id="learn-you-some-http-for-great-good"&gt;
+&lt;h3&gt;Learn You Some HTTP For Great Good&lt;/h3&gt;
+&lt;p&gt;Foolishly, I thought I understood HTTP requests. Sometimes you need to
+use your theoretical knowledge practically to fully grasp a concept. It
+turns out I was mixing &lt;code&gt;GET&lt;/code&gt; and &lt;code&gt;POST&lt;/code&gt; when submitting data to the
+server in conjunction with using HTML form attributes incorrectly.&lt;/p&gt;
+&lt;table border="1" class="docutils"&gt;
+&lt;colgroup&gt;
+&lt;col width="5%" /&gt;
+&lt;col width="52%" /&gt;
+&lt;col width="42%" /&gt;
+&lt;/colgroup&gt;
+&lt;thead valign="bottom"&gt;
+&lt;tr&gt;&lt;th class="head"&gt;&amp;nbsp;&lt;/th&gt;
+&lt;th class="head"&gt;GET&lt;/th&gt;
+&lt;th class="head"&gt;POST&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td&gt;&lt;ol class="first last arabic simple"&gt;
+&lt;li&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/td&gt;
+&lt;td&gt;Sends Parameters in URL&lt;/td&gt;
+&lt;td&gt;Sends Parameters in body&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;&lt;ol class="first last arabic simple" start="2"&gt;
+&lt;li&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/td&gt;
+&lt;td&gt;Used for fetching documents&lt;/td&gt;
+&lt;td&gt;Used for updating data&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;&lt;ol class="first last arabic simple" start="3"&gt;
+&lt;li&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/td&gt;
+&lt;td&gt;Has max length URL limitations&lt;/td&gt;
+&lt;td&gt;No max length (theoretically)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;&lt;ol class="first last arabic simple" start="4"&gt;
+&lt;li&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/td&gt;
+&lt;td&gt;Often Cached&lt;/td&gt;
+&lt;td&gt;Server does not cache&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;&lt;ol class="first last arabic simple" start="5"&gt;
+&lt;li&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/td&gt;
+&lt;td&gt;Idempotent&lt;/td&gt;
+&lt;td&gt;Not idempotent&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;&lt;ol class="first last arabic simple" start="6"&gt;
+&lt;li&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/td&gt;
+&lt;td&gt;Should not change server data&lt;/td&gt;
+&lt;td&gt;Can change server data&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;hr class="docutils" /&gt;
+&lt;p&gt;A key point for said webapp is item number 1; I was sending parameters
+in the URL when they really needed to be sent via the body. Expanding on
+this a little, in a &lt;code&gt;GET&lt;/code&gt; request the parameters are transmitted using
+URI schema friendly syntax (see wiki
+&lt;a class="reference external" href="https://en.wikipedia.org/wiki/Uniform_Resource_Identifier"&gt;here&lt;/a&gt;).
+It is common to see query delimiters in the URL such as &lt;code&gt;&amp;amp;`&lt;/code&gt;, &lt;code&gt;=&lt;/code&gt;,
+&lt;code&gt;+&lt;/code&gt; and &lt;code&gt;#&lt;/code&gt; and should of been a clue in the debugging process.
+Transmitting a &lt;code&gt;GET&lt;/code&gt; request like this fetches data from another
+resource, where in contrast my data was needed to execute a function
+within the server application to pull information from a third party.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="flask-requests"&gt;
+&lt;h3&gt;Flask Requests&lt;/h3&gt;
+&lt;p&gt;This is deep subject but is tightly coupled to the previous point. The
+request object in flask gives access to the global &lt;em&gt;request&lt;/em&gt; object.
+Meaning it parses the incoming request data for you. This is important
+because it is checking for a &lt;code&gt;method&lt;/code&gt; attribute within that request.
+Depending on which &lt;code&gt;method&lt;/code&gt; is sent will affect how it/ you should
+check for the request object.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;TL;DR:&lt;/strong&gt; If you incorrectly set the method to &lt;code&gt;GET&lt;/code&gt; when its
+actually a &lt;code&gt;POST&lt;/code&gt; you will have problems.&lt;/p&gt;
+&lt;p&gt;To receive the request object and parse for the data you want the
+following should be used:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# displaying both POST and GET for clarity&lt;/span&gt;
+
+&lt;span class="c1"&gt;# POST request // Use &amp;#39;form&amp;#39;&lt;/span&gt;
+&lt;span class="nd"&gt;@app.route&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/test&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;methods&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;GET&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;POST&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;test&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="n"&gt;select&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;request&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;form&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;attribute to be parsed&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;select&lt;/span&gt; &lt;span class="c1"&gt;# or render_template with select=select etc&lt;/span&gt;
+
+&lt;span class="c1"&gt;# GET request // Use &amp;#39;args&amp;#39;&lt;/span&gt;
+&lt;span class="nd"&gt;@app.route&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;/data&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;data&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="c1"&gt;# here we want to get the value of user (i.e. ?user=some-value)&lt;/span&gt;
+    &lt;span class="n"&gt;user&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;request&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;user&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nb"&gt;str&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;user&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;# or how ever you want to use that data&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Given these snippets you can see how mixing &lt;code&gt;GET&lt;/code&gt; with &lt;code&gt;POST&lt;/code&gt; will
+lead to calling the wrong request method.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="html-form-tags-for-dummies"&gt;
+&lt;h3&gt;HTML form tags for Dummies&lt;/h3&gt;
+&lt;p&gt;HTML, basic right? Don’t let hubris fool you, not learning HTML deeply
+is foolish. To be fair, this is the first app I have created that has
+not required the use of &lt;code&gt;flask-wtf&lt;/code&gt;, which kindly generates forms and
+their tags for you.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c"&gt;&amp;lt;!-- standard form tags --&amp;gt;&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;form&lt;/span&gt; &lt;span class="na"&gt;action&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;{{ url_for(&amp;#39;app.function&amp;#39;)}}&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;method&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;post&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Simple, right? Not if you:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;Mix up the HTTP request&lt;/li&gt;
+&lt;li&gt;Use the wrong flask request method&lt;/li&gt;
+&lt;li&gt;Don’t use an attribute which you can parse in using
+&lt;code&gt;request.form.get('attribute')&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Tightly coupled (I think there is a SOLID principle about this…) and
+frustrating when you don’t connect the dots.&lt;/p&gt;
+&lt;p&gt;The last piece of the puzzle was the simplest of all, I had not set an
+attribute that the request object could get. In this example a
+&lt;code&gt;&amp;lt;select&amp;gt;&lt;/code&gt; tag was used and simply appending
+&lt;code&gt;name=attribute_to_be_parsed&lt;/code&gt; worked.&lt;/p&gt;
+&lt;p&gt;For clarity, first the html.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c"&gt;&amp;lt;!-- html --&amp;gt;&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;select&lt;/span&gt; &lt;span class="na"&gt;name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;item1&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;                   &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;--&lt;/span&gt; &lt;span class="na"&gt;attribute&lt;/span&gt; &lt;span class="na"&gt;flask&lt;/span&gt; &lt;span class="na"&gt;looks&lt;/span&gt; &lt;span class="na"&gt;for&lt;/span&gt;
+    &lt;span class="err"&gt;{%&lt;/span&gt; &lt;span class="na"&gt;for&lt;/span&gt; &lt;span class="na"&gt;item&lt;/span&gt; &lt;span class="na"&gt;in&lt;/span&gt; &lt;span class="na"&gt;items&lt;/span&gt; &lt;span class="err"&gt;%}&lt;/span&gt;
+        &lt;span class="err"&gt;&amp;lt;&lt;/span&gt;&lt;span class="na"&gt;option&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+            {{ item }}                  &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;--&lt;/span&gt; &lt;span class="na"&gt;what&lt;/span&gt; &lt;span class="na"&gt;we&lt;/span&gt; &lt;span class="na"&gt;get&lt;/span&gt; &lt;span class="na"&gt;in&lt;/span&gt; &lt;span class="na"&gt;the&lt;/span&gt; &lt;span class="na"&gt;response&lt;/span&gt;
+        &lt;span class="err"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="na"&gt;option&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+    {% endfor}
+&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;select&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;And the flask part.&lt;/p&gt;
+&lt;table class="highlighttable"&gt;&lt;tr&gt;&lt;td class="linenos"&gt;&lt;div class="linenodiv"&gt;&lt;pre&gt;1
+2
+3
+4
+5&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# python: flask&lt;/span&gt;
+&lt;span class="nd"&gt;@app.route&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;/test&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;test&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="n"&gt;item_to_get&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;request&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;form&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;item1&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;     &lt;span class="o"&gt;&amp;lt;--&lt;/span&gt; &lt;span class="n"&gt;flask&lt;/span&gt; &lt;span class="n"&gt;request&lt;/span&gt; &lt;span class="n"&gt;parsing&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;response&lt;/span&gt; &lt;span class="n"&gt;body&lt;/span&gt;
+    &lt;span class="o"&gt;...&lt;/span&gt; &lt;span class="n"&gt;snip&lt;/span&gt; &lt;span class="o"&gt;...&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;p&gt;… My face when it worked.&lt;/p&gt;
+&lt;div class="figure"&gt;
+&lt;img alt="Frankenstein; its alive scene" src="https://danielms.site/images/its_alive.jpg" /&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="learn-from-your-mistakes"&gt;
+&lt;h3&gt;Learn from your mistakes&lt;/h3&gt;
+&lt;p&gt;Everyone makes mistakes, learn from it, be humble and don’t do it again.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</content><category term="python"></category><category term="flask"></category></entry></feed>
