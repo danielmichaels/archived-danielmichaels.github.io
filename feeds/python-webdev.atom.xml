@@ -164,17 +164,13 @@ attribute that the request object could get. In this example a
 &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;select&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;And the flask part.&lt;/p&gt;
-&lt;table class="highlighttable"&gt;&lt;tr&gt;&lt;td class="linenos"&gt;&lt;div class="linenodiv"&gt;&lt;pre&gt;1
-2
-3
-4
-5&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# python: flask&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# python: flask&lt;/span&gt;
 &lt;span class="nd"&gt;@app.route&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;/test&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;test&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
     &lt;span class="n"&gt;item_to_get&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;request&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;form&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;item1&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;     &lt;span class="o"&gt;&amp;lt;--&lt;/span&gt; &lt;span class="n"&gt;flask&lt;/span&gt; &lt;span class="n"&gt;request&lt;/span&gt; &lt;span class="n"&gt;parsing&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;response&lt;/span&gt; &lt;span class="n"&gt;body&lt;/span&gt;
     &lt;span class="o"&gt;...&lt;/span&gt; &lt;span class="n"&gt;snip&lt;/span&gt; &lt;span class="o"&gt;...&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;p&gt;… My face when it worked.&lt;/p&gt;
+&lt;p&gt;… My face when it worked.&lt;/p&gt;
 &lt;div class="figure"&gt;
 &lt;img alt="Frankenstein; its alive scene" src="https://danielms.site/images/its_alive.jpg" /&gt;
 &lt;/div&gt;
