@@ -29,7 +29,6 @@ CATEGORY_FEED_ATOM = None
 TRANSLATION_FEED_ATOM = None
 AUTHOR_FEED_ATOM = None
 AUTHOR_FEED_RSS = None
-#PIWIK = True
 
 # Blogroll
 LINKS = (('About Me', '#'),('Projects', '#'),
@@ -52,7 +51,7 @@ ARTICLE_SAVE_AS = 'posts/{date:%Y}/{date:%b}/{slug}/index.html'
 THEME = 'add-ons/themes/taman'
 TAGLINE = 'Technocrat, Aspiring Developer, Thinker, Practitioner of Shosin.' # Taman theme specific
 PLUGIN_PATHS = ['add-ons/plugins']
-PLUGINS = ['assets']
+PLUGINS = ['assets', 'just_table']
 
 # Static and Extra Paths
 STATIC_PATHS = [
@@ -66,9 +65,9 @@ EXTRA_PATH_METADATA = {
         'extra/cover.jpeg': {'path':'cover.jpeg'},
         'extra/CNAME': {'path':'CNAME'}
         }
-#MD_EXTENSIONS = ['fenced_code', 'codehilite(css_class=highlight, linenums=True)', 'extra']
 USER_FAVICON_URL = '/favicon.ico'
 USER_LOGO_URL = '/cover.jpeg'
+LOAD_CONTENT_CACHE = False
 
 # Uncomment following line if you want document-relative URLs when developing
 #RELATIVE_URLS = True
