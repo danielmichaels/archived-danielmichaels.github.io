@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="07e08267-8e12-4413-98c5-9003dc80d2df" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/content/08-http-post-and-get-in-flask.rst" beforeDir="false" afterPath="$PROJECT_DIR$/content/08-http-post-and-get-in-flask.rst" afterDir="false" />
-    </list>
+    <list default="true" id="07e08267-8e12-4413-98c5-9003dc80d2df" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -62,16 +60,7 @@
         <entry file="file://$PROJECT_DIR$/content/08-http-post-and-get-in-flask.rst">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="523">
-              <caret line="148" lean-forward="true" selection-start-line="148" selection-end-line="148" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="all.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/add-ons/themes/taman/static/css/all.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="928" column="41" selection-start-line="928" selection-start-column="41" selection-end-line="928" selection-end-column="41" />
+              <caret line="148" selection-start-line="148" selection-end-line="148" />
             </state>
           </provider>
         </entry>
@@ -295,7 +284,7 @@
     <entry file="file://$PROJECT_DIR$/content/08-http-post-and-get-in-flask.rst">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="523">
-          <caret line="148" lean-forward="true" selection-start-line="148" selection-end-line="148" />
+          <caret line="148" selection-start-line="148" selection-end-line="148" />
         </state>
       </provider>
     </entry>

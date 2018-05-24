@@ -56,7 +56,6 @@ Running :code:`ssh-keygen -t rsa -b 4096` will create the ssh key.
     :alt: SSH commandline
 
 
-
 It will ask for a password, this is up to the user but it does not limit
 your ability to login without entering password as we discuss below. It
 does however, offer protection should your device be stolen or
