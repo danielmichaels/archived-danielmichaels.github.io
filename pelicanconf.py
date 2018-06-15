@@ -33,7 +33,6 @@ AUTHOR_FEED_RSS = None
 # Blogroll
 LINKS = (('About Me', '#'),('Projects', '#'),
          ('Python.org', 'http://python.org/'),
-         ('Jinja2', 'http://jinja.pocoo.org/'),
          )
 
 # Social widget
@@ -49,7 +48,7 @@ ARTICLE_SAVE_AS = 'posts/{date:%Y}/{date:%b}/{slug}/index.html'
 
 # Themes and Plugins
 THEME = 'add-ons/themes/taman'
-TAGLINE = 'Technocrat, Aspiring Developer, Thinker, Practitioner of Shosin.' # Taman theme specific
+TAGLINE = 'The Writings of Autodidact, Thinker, and Technocrat.' # Taman theme specific
 PLUGIN_PATHS = ['add-ons/plugins']
 PLUGINS = ['assets', 'just_table']
 
