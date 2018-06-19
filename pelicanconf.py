@@ -48,7 +48,7 @@ ARTICLE_SAVE_AS = 'posts/{date:%Y}/{date:%b}/{slug}/index.html'
 
 # Themes and Plugins
 THEME = 'add-ons/themes/taman'
-TAGLINE = 'A place for thoughts, ideas and things I like' # Taman theme specific
+TAGLINE = 'I forget things so I write them down.' # Taman theme specific
 PLUGIN_PATHS = ['add-ons/plugins']
 PLUGINS = ['assets', 'just_table']
 
