@@ -1,5 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Dan's Site</title><link href="https://danielms.site/" rel="alternate"></link><link href="https://danielms.site/feeds/all.atom.xml" rel="self"></link><id>https://danielms.site/</id><updated>2018-06-14T00:00:00+10:00</updated><entry><title>Public Key Crypto: The Basics</title><link href="https://danielms.site/posts/2018/Jun/public-key-crypto-the-basics/" rel="alternate"></link><published>2018-06-14T00:00:00+10:00</published><updated>2018-06-14T00:00:00+10:00</updated><author><name>Dan</name></author><id>tag:danielms.site,2018-06-14:/posts/2018/Jun/public-key-crypto-the-basics/</id><summary type="html">&lt;div class="section" id="public-key-cryptography"&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Dan's Site</title><link href="https://danielms.site/" rel="alternate"></link><link href="https://danielms.site/feeds/all.atom.xml" rel="self"></link><id>https://danielms.site/</id><updated>2018-07-09T00:00:00+10:00</updated><entry><title>Python Object References</title><link href="https://danielms.site/posts/2018/Jul/python-object-references/" rel="alternate"></link><published>2018-07-09T00:00:00+10:00</published><updated>2018-07-09T00:00:00+10:00</updated><author><name>Dan</name></author><id>tag:danielms.site,2018-07-09:/posts/2018/Jul/python-object-references/</id><summary type="html">&lt;div class="section" id="python-object-reference-eli5"&gt;
+&lt;h2&gt;Python Object Reference ELI5&lt;/h2&gt;
+&lt;p&gt;I first learnt about variables through the analogy of &amp;quot;variables are boxes&amp;quot; and that we assign things to those boxes. Turns out, this isn't particularly helpful in objected orientated programming.
+This post is about how python treats object assignment and some of the hidden gotcha's that …&lt;/p&gt;&lt;/div&gt;</summary><content type="html">&lt;div class="section" id="python-object-reference-eli5"&gt;
+&lt;h2&gt;Python Object Reference ELI5&lt;/h2&gt;
+&lt;p&gt;I first learnt about variables through the analogy of &amp;quot;variables are boxes&amp;quot; and that we assign things to those boxes. Turns out, this isn't particularly helpful in objected orientated programming.
+This post is about how python treats object assignment and some of the hidden gotcha's that can cause unintended errors along the way.
+Instead of &amp;quot;boxes&amp;quot; it is better to think of variables as &amp;quot;labels&amp;quot; that we attach to objects. And, as everything in python is an object its important to remember that all objects have three things;
+identity, type and values. Values are the only things that change once an object is created, and it values that we often care about, and hence label.&lt;/p&gt;
+&lt;div class="section" id="labels-not-boxes"&gt;
+&lt;h3&gt;Labels not boxes&lt;/h3&gt;
+&lt;p&gt;Extending the &amp;quot;labels&amp;quot; metaphor a little we look at the assignment of variables.&lt;/p&gt;
+&lt;pre class="code python literal-block"&gt;
+&lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="c1"&gt;# we label the integer 2 as 'a'&lt;/span&gt;
+&lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="c1"&gt;# 'a' is now labelled as 'b'&lt;/span&gt;
+&lt;span class="n"&gt;c&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="c1"&gt;# and 'b' is now labelled as 'c'&lt;/span&gt;
+&lt;/pre&gt;
+&lt;p&gt;Above we can see that the object &lt;code&gt;2&lt;/code&gt; is assigned to the variable 'a'. Each subsequent assignment thereafter is simply a reference to the same object.
+When viewed through this lense you can start to see how objects have labels. It is not feasible that the &lt;code&gt;2&lt;/code&gt; can exist in three different boxes,
+rather we visualise &lt;code&gt;2&lt;/code&gt; having three sticky notes attached to it.
+If we changed &lt;code&gt;a&lt;/code&gt; like this &lt;code&gt;a = 20&lt;/code&gt; then it is just a matter of peeling off the sticky note with &lt;code&gt;a&lt;/code&gt; written on it from &lt;code&gt;2&lt;/code&gt; and attaching it to &lt;code&gt;20&lt;/code&gt;.
+To further aid in this thinking, always read assignments from right to left. The right side is where the object is created or retrieved and the left
+is what we bind to it (the label.. Enough you get it already!)&lt;/p&gt;
+&lt;p&gt;When an object like &lt;code&gt;2&lt;/code&gt; has many labels we called this &lt;em&gt;aliasing&lt;/em&gt;.
+Aliasing is an important concept to grasp, and to illustrate why we will examine the identity of &lt;code&gt;a&lt;/code&gt;, &lt;code&gt;b&lt;/code&gt;, and &lt;code&gt;c&lt;/code&gt;.&lt;/p&gt;
+&lt;pre class="code python literal-block"&gt;
+&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="s1"&gt;'a id: {id(a)}'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;# original object')  # a id: 139886603774600&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="s1"&gt;'b id: {id(b)}'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;# alias of a')       # b id: 139886603774600&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="s1"&gt;'c id: {id(c)}'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;# copy of a')        # c id: 139886603774600&lt;/span&gt;
+&lt;/pre&gt;
+&lt;p&gt;All aliases of &lt;code&gt;a&lt;/code&gt; have the same identity which in python is unique integer representing its C memory address. If any change were to be made the identity integer would also change
+to reflect that.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="when-is-true"&gt;
+&lt;h3&gt;When is == true?&lt;/h3&gt;
+&lt;p&gt;Let's check out Equality and Identity (and aliases, too)&lt;/p&gt;
+&lt;p&gt;An object's identity never changes once it has been created. However its values might, and generally this is what we care about more.
+Python gives us the option to check either like so:&lt;/p&gt;
+&lt;pre class="code python literal-block"&gt;
+&lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="c1"&gt;# compares the values&lt;/span&gt;
+&lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="ow"&gt;is&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="c1"&gt;# compares the identities&lt;/span&gt;
+&lt;/pre&gt;
+&lt;p&gt;Lets extend this using a more complex example using some dictionaries.&lt;/p&gt;
+&lt;pre class="code python literal-block"&gt;
+&lt;span class="n"&gt;batman&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s1"&gt;'name'&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;'Bruce Wayne'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;'job'&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;'crime fighter'&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="n"&gt;bruce&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;batman&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;batman&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="n"&gt;bruce&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="c1"&gt;# True&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;batman&lt;/span&gt; &lt;span class="ow"&gt;is&lt;/span&gt; &lt;span class="n"&gt;bruce&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="c1"&gt;# True&lt;/span&gt;
+&lt;/pre&gt;
+&lt;p&gt;Both &lt;code&gt;batman&lt;/code&gt; and &lt;code&gt;bruce&lt;/code&gt; are equal in identity, and their values. Suppose we have a vigilante crime fighter out there
+pretending to be &lt;code&gt;batman&lt;/code&gt;, named &lt;code&gt;manbat&lt;/code&gt;, does he have the same equality?&lt;/p&gt;
+&lt;pre class="code python literal-block"&gt;
+&lt;span class="n"&gt;manbat&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s1"&gt;'name'&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;'Bruce Wayne'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;'job'&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;'crime fighter'&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;batman&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="n"&gt;manbat&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;# True&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;batman&lt;/span&gt; &lt;span class="ow"&gt;is&lt;/span&gt; &lt;span class="n"&gt;manbat&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;# False&lt;/span&gt;
+&lt;/pre&gt;
+&lt;p&gt;In this case, both &lt;code&gt;manbat&lt;/code&gt; and &lt;code&gt;batman&lt;/code&gt; share equal values but not the same identity. &lt;code&gt;manbat&lt;/code&gt; is not an alias of &lt;code&gt;bruce&lt;/code&gt; or &lt;code&gt;batman&lt;/code&gt;, and thus has his own
+unique identity. This is because we created an entirely new identity albeit with the same values as batman.&lt;/p&gt;
+&lt;p&gt;Much of the time we care mostly about the values an object holds not its identity but you will see &lt;code&gt;is&lt;/code&gt; in a lot during conditionals such as:&lt;/p&gt;
+&lt;pre class="code python literal-block"&gt;
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="ow"&gt;is&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+  &lt;span class="n"&gt;do&lt;/span&gt; &lt;span class="n"&gt;something&lt;/span&gt;
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="ow"&gt;is&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+  &lt;span class="n"&gt;do&lt;/span&gt; &lt;span class="n"&gt;something&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt;
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="alias-issues"&gt;
+&lt;h3&gt;Alias Issues&lt;/h3&gt;
+&lt;p&gt;Something I didn't realise until it came back to haunt me much later is that aliases can have unintended side effects with mutable types.
+Let's say we have two lists, the original and its alias. The alias will have items added to it but we want the original untouched for whatever reason.&lt;/p&gt;
+&lt;pre class="code python literal-block"&gt;
+&lt;span class="n"&gt;orig&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;20&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;30&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;200&lt;/span&gt;&lt;span class="p"&gt;]]&lt;/span&gt;
+&lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;orig&lt;/span&gt;
+&lt;/pre&gt;
+&lt;p&gt;Looks good, we can now make changes to &lt;code&gt;new&lt;/code&gt;.&lt;/p&gt;
+&lt;pre class="code python literal-block"&gt;
+&lt;span class="n"&gt;new&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'FizzBuzz'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;orig&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;# [10, 20, 30, [100, 200], 'FizzBuzz']&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;new&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="c1"&gt;# [10, 20, 30, [100, 200], 'FizzBuzz']&lt;/span&gt;
+&lt;/pre&gt;
+&lt;p&gt;After appending to &lt;code&gt;new&lt;/code&gt; it becomes apparent that this change has affected both lists. This happens
+because the alias works two way with mutable types.
+I think this is really important to know - aliases are not copies!&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="copies"&gt;
+&lt;h3&gt;Copies&lt;/h3&gt;
+&lt;p&gt;If aliases aren't copies then how do we copy?&lt;/p&gt;
+&lt;pre class="code python literal-block"&gt;
+&lt;span class="n"&gt;orig&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;20&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;30&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;200&lt;/span&gt;&lt;span class="p"&gt;]]&lt;/span&gt;
+&lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;list&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;orig&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="c1"&gt;# dict(x) also works this way&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'orig id:'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;id&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;orig&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="c1"&gt;# orig id: 140443406513496&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'new id:'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;id&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;new&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;   &lt;span class="c1"&gt;# new id:  140443402343535&lt;/span&gt;
+&lt;/pre&gt;
+&lt;p&gt;By using the &lt;code&gt;list()&lt;/code&gt; class we successfully create two new objects. Now if we append or remove items from
+either list it does not propagate through. Except, it does sometimes.&lt;/p&gt;
+&lt;p&gt;In this case we are only making a new copy of the overall object but not any &lt;strong&gt;mutable&lt;/strong&gt; nested types
+within the copy. So while any changes made within the first layer of the object are contained within
+the copy, any mutable objects nested more deeply will be aliases.&lt;/p&gt;
+&lt;p&gt;Confused, an example.&lt;/p&gt;
+&lt;pre class="code python literal-block"&gt;
+&lt;span class="n"&gt;orig&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;20&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;30&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;200&lt;/span&gt;&lt;span class="p"&gt;]]&lt;/span&gt;
+&lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;list&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;orig&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;new&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'not nested'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;orig&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;# [10, 20, 30, [100, 200]]&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;new&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="c1"&gt;# [10, 20, 30, [100, 200], 'not nested']&lt;/span&gt;
+&lt;span class="c1"&gt;# first layer is not affected as it is a copy, not an alias&lt;/span&gt;
+&lt;span class="n"&gt;orig&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'i am aliased to orig'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;orig&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;# [10, 20, 30, [100, 200, 'i am aliased to a']]&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;new&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="c1"&gt;# [10, 20, 30, [100, 200, 'i am aliased to a'], 'not nested']&lt;/span&gt;
+&lt;/pre&gt;
+&lt;p&gt;While the &lt;code&gt;orig&lt;/code&gt; and &lt;code&gt;new&lt;/code&gt; are independent of each other when making changes to
+the first layer of abstraction, any mutable types within that are simply aliases of the
+copies source.&lt;/p&gt;
+&lt;p&gt;Another example to check this out.&lt;/p&gt;
+&lt;pre class="code python literal-block"&gt;
+&lt;span class="c1"&gt;# before we started making alterations to the lists&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;id&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;orig&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;     &lt;span class="c1"&gt;# 140443390926984&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;id&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;new&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;      &lt;span class="c1"&gt;# 140443392352593&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;id&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;orig&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]))&lt;/span&gt; &lt;span class="c1"&gt;# 140443395483400&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;id&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;new&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]))&lt;/span&gt;  &lt;span class="c1"&gt;# 140443395483400&lt;/span&gt;
+&lt;/pre&gt;
+&lt;p&gt;Inspecting the identities reveals that only the overall object's were initialised as new objects
+but the nested types within were bound to the original nested type - an alias!&lt;/p&gt;
+&lt;p&gt;This is something to take into consideration when passing variables around that have
+nested types. To circumvent this immutable types such as tuples can be used in place.&lt;/p&gt;
+&lt;p&gt;Python can do deep copies which will take care of this issue, but it has its own drawbacks. Of which
+we not be discussed here as this post is already quite long. See &lt;a class="reference external" href="https://realpython.com/copying-python-objects/"&gt;Dan Bader's&lt;/a&gt;
+excellent post for more information.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="wrapping-up"&gt;
+&lt;h3&gt;Wrapping Up&lt;/h3&gt;
+&lt;p&gt;In python all objects have a type, identity and values. Only the values can change after it is created
+and knowing a little bit more about how this works can help us prevent unintended bugs.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Notes:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;assignment does not create copies&lt;/li&gt;
+&lt;li&gt;nested mutable types within shallow copies are aliases&lt;/li&gt;
+&lt;li&gt;equality has two different checks; identity, and values&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</content><category term="ELI"></category></entry><entry><title>Public Key Crypto: The Basics</title><link href="https://danielms.site/posts/2018/Jun/public-key-crypto-the-basics/" rel="alternate"></link><published>2018-06-14T00:00:00+10:00</published><updated>2018-06-14T00:00:00+10:00</updated><author><name>Dan</name></author><id>tag:danielms.site,2018-06-14:/posts/2018/Jun/public-key-crypto-the-basics/</id><summary type="html">&lt;div class="section" id="public-key-cryptography"&gt;
 &lt;h2&gt;Public Key Cryptography&lt;/h2&gt;
 &lt;div class="section" id="my-simplest-explaination"&gt;
 &lt;h3&gt;My simplest explaination&lt;/h3&gt;
